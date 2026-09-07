@@ -1,0 +1,3892 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Statistical Modelling of Software Developer Stress},
+  pdfauthor={Group 02},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Statistical Modelling of Software Developer Stress}
+\author{Group 02}
+\date{2026-08-31}
+
+\begin{document}
+\maketitle
+
+\section{1. Data Import}\label{data-import}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_raw }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"data/developer\_stress (1).csv"}\NormalTok{,}\AttributeTok{stringsAsFactors =} \ConstantTok{FALSE}\NormalTok{,}\AttributeTok{na.strings =} \FunctionTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, }\StringTok{"NA"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(data\_raw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 526  25
+\end{verbatim}
+
+\section{2. Initial Data Inspection}\label{initial-data-inspection}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(data\_raw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Hours_Worked Sleep_Hours Bugs Deadline_Days Coffee_Cups Meetings
+## 1           10           8   25            53           4        9
+## 2            7           8   33            33           2        6
+## 3           14           8   44            54          10       12
+## 4           11           6    5            46           0       13
+## 5            8           7   36            23           9        3
+## 6           10           6   32            53           5        7
+##   Interruptions Experience_Years Code_Complexity Remote_Work Stress_Level  X
+## 1             2           Senior          Medium         Yes     58.52103 NA
+## 2             9           Junior          Medium         Yes     47.46165 NA
+## 3             2           Junior             Low          No     59.21158 NA
+## 4             9              Mid             Low         Yes    100.00000 NA
+## 5             2           Junior          Medium         Yes     28.78496 NA
+## 6             4           Senior          Medium          No     68.79886 NA
+##   X.1 X.2 X.3 X.4 X.5 X.6 X.7 X.8 X.9 X.10 X.11 X.12 X.13
+## 1  NA  NA  NA  NA  NA  NA  NA  NA  NA   NA   NA   NA   NA
+## 2  NA  NA  NA  NA  NA  NA  NA  NA  NA   NA   NA   NA   NA
+## 3  NA  NA  NA  NA  NA  NA  NA  NA  NA   NA   NA   NA   NA
+## 4  NA  NA  NA  NA  NA  NA  NA  NA  NA   NA   NA   NA   NA
+## 5  NA  NA  NA  NA  NA  NA  NA  NA  NA   NA   NA   NA   NA
+## 6  NA  NA  NA  NA  NA  NA  NA  NA  NA   NA   NA   NA   NA
+\end{verbatim}
+
+\section{3. Data Structure}\label{data-structure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(data\_raw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    526 obs. of  25 variables:
+##  $ Hours_Worked    : int  10 7 14 11 8 10 13 6 10 14 ...
+##  $ Sleep_Hours     : int  8 8 8 6 7 6 4 4 7 6 ...
+##  $ Bugs            : int  25 33 44 5 36 32 21 20 5 5 ...
+##  $ Deadline_Days   : int  53 33 54 46 23 53 21 4 55 32 ...
+##  $ Coffee_Cups     : int  4 2 10 0 9 5 1 2 0 8 ...
+##  $ Meetings        : int  9 6 12 13 3 7 4 0 3 2 ...
+##  $ Interruptions   : int  2 9 2 9 2 4 4 3 0 4 ...
+##  $ Experience_Years: chr  "Senior" "Junior" "Junior" "Mid" ...
+##  $ Code_Complexity : chr  "Medium" "Medium" "Low" "Low" ...
+##  $ Remote_Work     : chr  "Yes" "Yes" "No" "Yes" ...
+##  $ Stress_Level    : num  58.5 47.5 59.2 100 28.8 ...
+##  $ X               : logi  NA NA NA NA NA NA ...
+##  $ X.1             : logi  NA NA NA NA NA NA ...
+##  $ X.2             : logi  NA NA NA NA NA NA ...
+##  $ X.3             : logi  NA NA NA NA NA NA ...
+##  $ X.4             : logi  NA NA NA NA NA NA ...
+##  $ X.5             : logi  NA NA NA NA NA NA ...
+##  $ X.6             : logi  NA NA NA NA NA NA ...
+##  $ X.7             : logi  NA NA NA NA NA NA ...
+##  $ X.8             : logi  NA NA NA NA NA NA ...
+##  $ X.9             : logi  NA NA NA NA NA NA ...
+##  $ X.10            : logi  NA NA NA NA NA NA ...
+##  $ X.11            : logi  NA NA NA NA NA NA ...
+##  $ X.12            : logi  NA NA NA NA NA NA ...
+##  $ X.13            : logi  NA NA NA NA NA NA ...
+\end{verbatim}
+
+\section{4. Data Quality Check}\label{data-quality-check}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(data\_raw))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##              522              524              523              523 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##              521              520              523              524 
+##  Code_Complexity      Remote_Work     Stress_Level                X 
+##              522              521              523                0 
+##              X.1              X.2              X.3              X.4 
+##                0                0                0                0 
+##              X.5              X.6              X.7              X.8 
+##                0                0                0                0 
+##              X.9             X.10             X.11             X.12 
+##                0                0                0                0 
+##             X.13 
+##                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_clean }\OtherTok{\textless{}{-}}\NormalTok{ data\_raw[, }\FunctionTok{colSums}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(data\_raw)) }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(data\_clean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 526  11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(data\_clean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "Hours_Worked"     "Sleep_Hours"      "Bugs"             "Deadline_Days"   
+##  [5] "Coffee_Cups"      "Meetings"         "Interruptions"    "Experience_Years"
+##  [9] "Code_Complexity"  "Remote_Work"      "Stress_Level"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(data\_clean}\SpecialCharTok{$}\NormalTok{Experience\_Years)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Senior" "Junior" "Mid"    "2"      NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(data\_clean}\SpecialCharTok{$}\NormalTok{Code\_Complexity)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Medium" "Low"    "High"   NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(data\_clean}\SpecialCharTok{$}\NormalTok{Remote\_Work)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Yes" "No"  NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_clean[data\_clean}\SpecialCharTok{$}\NormalTok{Experience\_Years }\SpecialCharTok{==} \StringTok{"2"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Hours_Worked Sleep_Hours Bugs Deadline_Days Coffee_Cups Meetings
+## 11             NA           7   12             5           3        4
+## NA             NA          NA   NA            NA          NA       NA
+## NA.1           NA          NA   NA            NA          NA       NA
+##      Interruptions Experience_Years Code_Complexity Remote_Work Stress_Level
+## 11               6                2          Medium         Yes        65.59
+## NA              NA             <NA>            <NA>        <NA>           NA
+## NA.1            NA             <NA>            <NA>        <NA>           NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_clean}\SpecialCharTok{$}\NormalTok{Experience\_Years[data\_clean}\SpecialCharTok{$}\NormalTok{Experience\_Years }\SpecialCharTok{==} \StringTok{"2"}\NormalTok{] }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(data\_clean}\SpecialCharTok{$}\NormalTok{Experience\_Years)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Senior" "Junior" "Mid"    NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(data\_clean))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                4                2                3                3 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                5                6                3                3 
+##  Code_Complexity      Remote_Work     Stress_Level 
+##                4                5                3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_model }\OtherTok{\textless{}{-}}\NormalTok{ data\_clean[}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(data\_clean}\SpecialCharTok{$}\NormalTok{Stress\_Level), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(data\_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 523  11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+
+\NormalTok{train\_index }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{seq\_len}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(data\_model)),}\AttributeTok{size =} \FunctionTok{floor}\NormalTok{(}\FloatTok{0.80} \SpecialCharTok{*} \FunctionTok{nrow}\NormalTok{(data\_model)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_data }\OtherTok{\textless{}{-}}\NormalTok{ data\_model[train\_index, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data }\OtherTok{\textless{}{-}}\NormalTok{ data\_model[}\SpecialCharTok{{-}}\NormalTok{train\_index, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(train\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 418  11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(test\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 105  11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 75.70095
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 78.7021
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{range}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]   0.4926251 100.0000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{range}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]   8.771806 100.000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Experience\_Years))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    Junior       Mid    Senior 
+## 0.2578313 0.3686747 0.3734940
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Experience\_Years))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##    Junior       Mid    Senior 
+## 0.3142857 0.3142857 0.3714286
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Code\_Complexity))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      High       Low    Medium 
+## 0.3028846 0.2764423 0.4206731
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Code\_Complexity))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      High       Low    Medium 
+## 0.3203883 0.2815534 0.3980583
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Remote\_Work))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##        No       Yes 
+## 0.5157385 0.4842615
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Remote\_Work))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##        No       Yes 
+## 0.4857143 0.5142857
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_hours }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Hours\_Worked, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{mean\_sleep }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Sleep\_Hours, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{mean\_bugs }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Bugs, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{mean\_deadline }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Deadline\_Days, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{mean\_coffee }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Coffee\_Cups, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{mean\_meetings }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Meetings, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{mean\_interruptions }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Interruptions, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_hours}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_sleep}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_bugs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 25
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_deadline}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 31
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_coffee}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_meetings}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mean\_interruptions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{get\_mode }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  x }\OtherTok{\textless{}{-}}\NormalTok{ x[}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(x)]}
+  \FunctionTok{names}\NormalTok{(}\FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(x), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{))[}\DecValTok{1}\NormalTok{]}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mode\_experience }\OtherTok{\textless{}{-}} \FunctionTok{get\_mode}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Experience\_Years)}
+\NormalTok{mode\_complexity }\OtherTok{\textless{}{-}} \FunctionTok{get\_mode}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Code\_Complexity)}
+\NormalTok{mode\_remote }\OtherTok{\textless{}{-}} \FunctionTok{get\_mode}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Remote\_Work)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mode\_experience}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Senior"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mode\_complexity}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Medium"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mode\_remote}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "No"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_imputed }\OtherTok{\textless{}{-}}\NormalTok{ train\_data}
+\NormalTok{test\_imputed }\OtherTok{\textless{}{-}}\NormalTok{ test\_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Hours\_Worked[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Hours\_Worked)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_hours}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Sleep\_Hours[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Sleep\_Hours)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_sleep}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Bugs[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Bugs)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_bugs}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Deadline\_Days[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Deadline\_Days)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_deadline}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Coffee\_Cups[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Coffee\_Cups)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_coffee}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Meetings[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Meetings)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_meetings}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Interruptions[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Interruptions)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_interruptions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Hours\_Worked[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Hours\_Worked)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_hours}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Sleep\_Hours[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Sleep\_Hours)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_sleep}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Bugs[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Bugs)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_bugs}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Deadline\_Days[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Deadline\_Days)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_deadline}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Coffee\_Cups[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Coffee\_Cups)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_coffee}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Meetings[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Meetings)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_meetings}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Interruptions[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Interruptions)] }\OtherTok{\textless{}{-}}\NormalTok{ mean\_interruptions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years)] }\OtherTok{\textless{}{-}}\NormalTok{ mode\_experience}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity)] }\OtherTok{\textless{}{-}}\NormalTok{ mode\_complexity}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work[}\FunctionTok{is.na}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work)] }\OtherTok{\textless{}{-}}\NormalTok{ mode\_remote}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years)] }\OtherTok{\textless{}{-}}\NormalTok{ mode\_experience}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity)] }\OtherTok{\textless{}{-}}\NormalTok{ mode\_complexity}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work[}\FunctionTok{is.na}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work)] }\OtherTok{\textless{}{-}}\NormalTok{ mode\_remote}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(train\_imputed))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                0                0                0                0 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                0                0                0                0 
+##  Code_Complexity      Remote_Work     Stress_Level 
+##                0                0                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_imputed))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                0                0                0                0 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                0                0                0                0 
+##  Code_Complexity      Remote_Work     Stress_Level 
+##                0                0                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years)}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity)}
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work)}
+
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years)}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity)}
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(train\_imputed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    418 obs. of  11 variables:
+##  $ Hours_Worked    : num  14 15 15 4 4 15 4 6 8 4 ...
+##  $ Sleep_Hours     : num  5 6 8 4 3 3 8 8 8 8 ...
+##  $ Bugs            : num  18 45 30 14 36 5 25 3 29 28 ...
+##  $ Deadline_Days   : num  16 11 17 24 28 33 36 51 46 24 ...
+##  $ Coffee_Cups     : num  5 9 5 3 5 4 5 8 10 2 ...
+##  $ Meetings        : num  10 13 8 7 5 19 17 19 0 6 ...
+##  $ Interruptions   : num  5 3 4 7 5 6 3 1 3 10 ...
+##  $ Experience_Years: Factor w/ 3 levels "Junior","Mid",..: 2 2 1 2 2 3 1 3 2 3 ...
+##  $ Code_Complexity : Factor w/ 3 levels "High","Low","Medium": 2 2 3 2 3 3 3 2 3 2 ...
+##  $ Remote_Work     : Factor w/ 2 levels "No","Yes": 1 1 2 1 1 2 2 1 2 2 ...
+##  $ Stress_Level    : num  91.6 81.9 13.5 100 100 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years }\OtherTok{\textless{}{-}} \FunctionTok{relevel}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years,}\AttributeTok{ref =} \StringTok{"Junior"}\NormalTok{)}
+
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity }\OtherTok{\textless{}{-}} \FunctionTok{relevel}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity,}\AttributeTok{ref =} \StringTok{"Low"}\NormalTok{)}
+
+\NormalTok{train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work }\OtherTok{\textless{}{-}} \FunctionTok{relevel}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work,}\AttributeTok{ref =} \StringTok{"No"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years,}\AttributeTok{levels =} \FunctionTok{levels}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years))}
+
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity,}\AttributeTok{levels =} \FunctionTok{levels}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity))}
+
+\NormalTok{test\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(test\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work,}\AttributeTok{levels =} \FunctionTok{levels}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Experience\_Years)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Junior" "Mid"    "Senior"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Code\_Complexity)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Low"    "High"   "Medium"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Remote\_Work)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "No"  "Yes"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(train\_imputed[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Hours\_Worked"}\NormalTok{,}\StringTok{"Sleep\_Hours"}\NormalTok{,}\StringTok{"Bugs"}\NormalTok{,}\StringTok{"Deadline\_Days"}\NormalTok{,}\StringTok{"Coffee\_Cups"}\NormalTok{,}\StringTok{"Meetings"}\NormalTok{,}\StringTok{"Interruptions"}\NormalTok{,}\StringTok{"Stress\_Level"}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Hours_Worked     Sleep_Hours          Bugs       Deadline_Days  
+##  Min.   : 4.000   Min.   : 3.000   Min.   : 0.00   Min.   : 0.00  
+##  1st Qu.: 6.000   1st Qu.: 4.000   1st Qu.:12.00   1st Qu.:16.00  
+##  Median : 9.000   Median : 5.000   Median :25.00   Median :31.00  
+##  Mean   : 9.445   Mean   : 5.467   Mean   :24.81   Mean   :31.11  
+##  3rd Qu.:12.750   3rd Qu.: 7.000   3rd Qu.:37.00   3rd Qu.:45.00  
+##  Max.   :16.000   Max.   :10.000   Max.   :50.00   Max.   :60.00  
+##   Coffee_Cups        Meetings     Interruptions     Stress_Level     
+##  Min.   : 0.000   Min.   : 0.00   Min.   : 0.000   Min.   :  0.4926  
+##  1st Qu.: 2.000   1st Qu.: 4.00   1st Qu.: 2.000   1st Qu.: 55.8282  
+##  Median : 5.000   Median :10.00   Median : 5.000   Median : 87.7407  
+##  Mean   : 4.888   Mean   :10.06   Mean   : 4.919   Mean   : 75.7010  
+##  3rd Qu.: 7.750   3rd Qu.:16.00   3rd Qu.: 7.000   3rd Qu.:100.0000  
+##  Max.   :10.000   Max.   :20.00   Max.   :10.000   Max.   :100.0000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{))}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Hours\_Worked,}
+        \AttributeTok{main =} \StringTok{"Hours Worked"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Hours"}\NormalTok{)}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Sleep\_Hours,}
+        \AttributeTok{main =} \StringTok{"Sleep Hours"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Hours"}\NormalTok{)}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Bugs,}
+        \AttributeTok{main =} \StringTok{"Bugs"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Count"}\NormalTok{)}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Deadline\_Days,}
+        \AttributeTok{main =} \StringTok{"Deadline Days"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Days"}\NormalTok{)}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Coffee\_Cups,}
+        \AttributeTok{main =} \StringTok{"Coffee Cups"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Cups"}\NormalTok{)}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Meetings,}
+        \AttributeTok{main =} \StringTok{"Meetings"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Count"}\NormalTok{)}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Interruptions,}
+        \AttributeTok{main =} \StringTok{"Interruptions"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Count"}\NormalTok{)}
+
+\FunctionTok{boxplot}\NormalTok{(train\_imputed}\SpecialCharTok{$}\NormalTok{Stress\_Level,}
+        \AttributeTok{main =} \StringTok{"Stress Level"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Stress"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Developer_Stress_Project2_files/figure-latex/unnamed-chunk-45-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(}
+\NormalTok{  train\_imputed}\SpecialCharTok{$}\NormalTok{Stress\_Level,}
+  \AttributeTok{main =} \StringTok{"Distribution of Stress Level"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"Stress Level"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Developer_Stress_Project2_files/figure-latex/unnamed-chunk-46-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cor}\NormalTok{(}
+\NormalTok{  train\_imputed[, }\FunctionTok{c}\NormalTok{(}
+    \StringTok{"Hours\_Worked"}\NormalTok{,}
+    \StringTok{"Sleep\_Hours"}\NormalTok{,}
+    \StringTok{"Bugs"}\NormalTok{,}
+    \StringTok{"Deadline\_Days"}\NormalTok{,}
+    \StringTok{"Coffee\_Cups"}\NormalTok{,}
+    \StringTok{"Meetings"}\NormalTok{,}
+    \StringTok{"Interruptions"}
+\NormalTok{  )]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               Hours_Worked   Sleep_Hours          Bugs Deadline_Days
+## Hours_Worked    1.00000000 -0.0216605372 -0.1095456516  -0.035433806
+## Sleep_Hours    -0.02166054  1.0000000000 -0.0005980316   0.049464225
+## Bugs           -0.10954565 -0.0005980316  1.0000000000  -0.020415532
+## Deadline_Days  -0.03543381  0.0494642250 -0.0204155322   1.000000000
+## Coffee_Cups    -0.02564488  0.0112621409 -0.0777044317  -0.003763387
+## Meetings       -0.04586348 -0.0732193602 -0.0175011724   0.005132967
+## Interruptions   0.06026808  0.0081352027 -0.0732351378   0.008213941
+##                Coffee_Cups     Meetings Interruptions
+## Hours_Worked  -0.025644877 -0.045863485   0.060268078
+## Sleep_Hours    0.011262141 -0.073219360   0.008135203
+## Bugs          -0.077704432 -0.017501172  -0.073235138
+## Deadline_Days -0.003763387  0.005132967   0.008213941
+## Coffee_Cups    1.000000000 -0.022510809  -0.059933459
+## Meetings      -0.022510809  1.000000000  -0.062331928
+## Interruptions -0.059933459 -0.062331928   1.000000000
+\end{verbatim}
+
+\subsection{4.1 Initial Multiple Linear Regression
+Model}\label{initial-multiple-linear-regression-model}
+
+\section{An initial full Multiple Linear Regression (MLR) model is
+fitted}\label{an-initial-full-multiple-linear-regression-mlr-model-is-fitted}
+
+\section{to examine the relationship between Stress\_Level and all
+available}\label{to-examine-the-relationship-between-stress_level-and-all-available}
+
+\section{numerical and categorical predictor
+variables.}\label{numerical-and-categorical-predictor-variables.}
+
+\section{}\label{section}
+
+\section{This full model provides a baseline for subsequent model
+diagnostics,}\label{this-full-model-provides-a-baseline-for-subsequent-model-diagnostics}
+
+\section{multicollinearity assessment, and variable
+selection.}\label{multicollinearity-assessment-and-variable-selection.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mlr\_full }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Stress\_Level }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Hours\_Worked }\SpecialCharTok{+}\NormalTok{Sleep\_Hours }\SpecialCharTok{+}\NormalTok{Bugs }\SpecialCharTok{+}\NormalTok{Deadline\_Days }\SpecialCharTok{+}\NormalTok{Coffee\_Cups }\SpecialCharTok{+}\NormalTok{Meetings }\SpecialCharTok{+}\NormalTok{Interruptions }\SpecialCharTok{+}\NormalTok{Experience\_Years }\SpecialCharTok{+}\NormalTok{Code\_Complexity }\SpecialCharTok{+}\NormalTok{Remote\_Work,}\AttributeTok{data =}\NormalTok{ train\_imputed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(mlr\_full)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + 
+##     Deadline_Days + Coffee_Cups + Meetings + Interruptions + 
+##     Experience_Years + Code_Complexity + Remote_Work, data = train_imputed)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -88.155 -10.332   0.516  10.935  71.152 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)            91.79889    5.73700  16.001  < 2e-16 ***
+## Hours_Worked            1.93816    0.24836   7.804 5.17e-14 ***
+## Sleep_Hours            -9.82057    0.48911 -20.078  < 2e-16 ***
+## Bugs                    0.12658    0.06094   2.077   0.0384 *  
+## Deadline_Days          -0.21345    0.05129  -4.162 3.86e-05 ***
+## Coffee_Cups            -0.03516    0.28975  -0.121   0.9035    
+## Meetings                0.97695    0.13996   6.980 1.21e-11 ***
+## Interruptions           2.00832    0.28832   6.966 1.33e-11 ***
+## Experience_YearsMid     0.96874    2.26842   0.427   0.6696    
+## Experience_YearsSenior  3.45920    2.27056   1.524   0.1284    
+## Code_ComplexityHigh     3.62536    2.33149   1.555   0.1207    
+## Code_ComplexityMedium   1.04617    2.15866   0.485   0.6282    
+## Remote_WorkYes          0.11043    1.75906   0.063   0.9500    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 17.88 on 405 degrees of freedom
+## Multiple R-squared:  0.6138, Adjusted R-squared:  0.6023 
+## F-statistic: 53.63 on 12 and 405 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\#The model explains approximately 61.4\% of the variation in
+Stress\_Level in the training data.
+
+\#The overall F-test is highly significant, indicating that the set of
+predictors, considered jointly, provides statistically significant
+explanatory power for Stress\_Level.
+
+\#The adjusted R² of 60.2\% is reasonably close to R², suggesting that
+the model's explanatory power is not simply due to including many
+unnecessary predictors.
+
+\subsection{4.2 Multicollinearity
+Assessment}\label{multicollinearity-assessment}
+
+\section{Variance Inflation Factors (VIF) are examined to
+assess}\label{variance-inflation-factors-vif-are-examined-to-assess}
+
+\section{multicollinearity among the predictors in the initial MLR
+model.}\label{multicollinearity-among-the-predictors-in-the-initial-mlr-model.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(car)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'car' was built under R version 4.5.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: carData
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'carData' was built under R version 4.5.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{vif}\NormalTok{(mlr\_full)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                      GVIF Df GVIF^(1/(2*Df))
+## Hours_Worked     1.038279  1        1.018960
+## Sleep_Hours      1.023697  1        1.011779
+## Bugs             1.038182  1        1.018912
+## Deadline_Days    1.026042  1        1.012937
+## Coffee_Cups      1.017240  1        1.008583
+## Meetings         1.015984  1        1.007960
+## Interruptions    1.021642  1        1.010763
+## Experience_Years 1.043822  2        1.010780
+## Code_Complexity  1.047676  2        1.011712
+## Remote_Work      1.009547  1        1.004762
+\end{verbatim}
+
+\subsection{4.3 MLR Assumption
+Diagnostics}\label{mlr-assumption-diagnostics}
+
+\section{The assumptions of the initial MLR model are assessed
+using}\label{the-assumptions-of-the-initial-mlr-model-are-assessed-using}
+
+\section{residual diagnostic plots before proceeding to model
+refinement.}\label{residual-diagnostic-plots-before-proceeding-to-model-refinement.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(mlr\_full)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Developer_Stress_Project2_files/figure-latex/unnamed-chunk-51-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\#Your plots show several issues:
+
+\#1.Residuals vs Fitted --- the red line is curved rather than
+approximately horizontal → possible non-linearity. \#2.Q-Q plot ---
+substantial deviation at both tails → residuals are not perfectly
+normal. \#3.Scale-Location --- the spread changes across fitted values →
+possible heteroscedasticity. \#4.Residuals vs Leverage --- observations
+such as 375, 483, and 409 deserve investigation for possible influence.
+
+\subsection{4.4 Stepwise Variable
+Selection}\label{stepwise-variable-selection}
+
+\section{Stepwise regression is used to identify a more
+parsimonious}\label{stepwise-regression-is-used-to-identify-a-more-parsimonious}
+
+\section{subset of predictors from the initial full MLR
+model.}\label{subset-of-predictors-from-the-initial-full-mlr-model.}
+
+\section{}\label{section-1}
+
+\section{Both forward and backward movements are considered using
+AIC}\label{both-forward-and-backward-movements-are-considered-using-aic}
+
+\section{as the model selection
+criterion.}\label{as-the-model-selection-criterion.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'MASS' was built under R version 4.5.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mlr\_stepwise }\OtherTok{\textless{}{-}} \FunctionTok{stepAIC}\NormalTok{(}
+\NormalTok{  mlr\_full,}
+  \AttributeTok{direction =} \StringTok{"both"}\NormalTok{,}
+  \AttributeTok{trace =} \ConstantTok{TRUE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Start:  AIC=2423.56
+## Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Coffee_Cups + Meetings + Interruptions + Experience_Years + 
+##     Code_Complexity + Remote_Work
+## 
+##                    Df Sum of Sq    RSS    AIC
+## - Remote_Work       1         1 129480 2421.6
+## - Coffee_Cups       1         5 129484 2421.6
+## - Code_Complexity   2       841 130320 2422.3
+## - Experience_Years  2       853 130332 2422.3
+## <none>                          129479 2423.6
+## - Bugs              1      1379 130858 2426.0
+## - Deadline_Days     1      5537 135016 2439.1
+## - Interruptions     1     15512 144991 2468.9
+## - Meetings          1     15577 145056 2469.1
+## - Hours_Worked      1     19469 148948 2480.1
+## - Sleep_Hours       1    128884 258363 2710.3
+## 
+## Step:  AIC=2421.57
+## Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Coffee_Cups + Meetings + Interruptions + Experience_Years + 
+##     Code_Complexity
+## 
+##                    Df Sum of Sq    RSS    AIC
+## - Coffee_Cups       1         5 129485 2419.6
+## - Code_Complexity   2       840 130320 2420.3
+## - Experience_Years  2       857 130337 2420.3
+## <none>                          129480 2421.6
+## + Remote_Work       1         1 129479 2423.6
+## - Bugs              1      1379 130859 2424.0
+## - Deadline_Days     1      5537 135018 2437.1
+## - Interruptions     1     15557 145037 2467.0
+## - Meetings          1     15578 145058 2467.1
+## - Hours_Worked      1     19468 148949 2478.1
+## - Sleep_Hours       1    128946 258426 2708.4
+## 
+## Step:  AIC=2419.58
+## Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Meetings + Interruptions + Experience_Years + Code_Complexity
+## 
+##                    Df Sum of Sq    RSS    AIC
+## - Code_Complexity   2       837 130322 2418.3
+## - Experience_Years  2       858 130343 2418.3
+## <none>                          129485 2419.6
+## + Coffee_Cups       1         5 129480 2421.6
+## + Remote_Work       1         1 129484 2421.6
+## - Bugs              1      1405 130890 2422.1
+## - Deadline_Days     1      5536 135021 2435.1
+## - Meetings          1     15610 145095 2465.2
+## - Interruptions     1     15662 145147 2465.3
+## - Hours_Worked      1     19517 149002 2476.3
+## - Sleep_Hours       1    128964 258449 2706.5
+## 
+## Step:  AIC=2418.28
+## Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Meetings + Interruptions + Experience_Years
+## 
+##                    Df Sum of Sq    RSS    AIC
+## - Experience_Years  2       906 131228 2417.2
+## <none>                          130322 2418.3
+## + Code_Complexity   2       837 129485 2419.6
+## + Coffee_Cups       1         2 130320 2420.3
+## + Remote_Work       1         0 130322 2420.3
+## - Bugs              1      1530 131853 2421.2
+## - Deadline_Days     1      5706 136029 2434.2
+## - Meetings          1     15661 145983 2463.7
+## - Interruptions     1     16023 146346 2464.8
+## - Hours_Worked      1     20821 151143 2478.2
+## - Sleep_Hours       1    130422 260745 2706.2
+## 
+## Step:  AIC=2417.17
+## Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Meetings + Interruptions
+## 
+##                    Df Sum of Sq    RSS    AIC
+## <none>                          131228 2417.2
+## + Experience_Years  2       906 130322 2418.3
+## + Code_Complexity   2       885 130343 2418.3
+## + Coffee_Cups       1         3 131225 2419.2
+## + Remote_Work       1         1 131227 2419.2
+## - Bugs              1      1345 132573 2419.4
+## - Deadline_Days     1      5457 136685 2432.2
+## - Meetings          1     15468 146697 2461.8
+## - Interruptions     1     16199 147428 2463.8
+## - Hours_Worked      1     21177 152405 2477.7
+## - Sleep_Hours       1    134182 265410 2709.6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(mlr\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + 
+##     Deadline_Days + Meetings + Interruptions, data = train_imputed)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -90.273 -10.149   0.737  10.704  72.854 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   94.78874    4.89736  19.355  < 2e-16 ***
+## Hours_Worked   2.00258    0.24590   8.144 4.63e-15 ***
+## Sleep_Hours   -9.94568    0.48516 -20.500  < 2e-16 ***
+## Bugs           0.12377    0.06031   2.052   0.0408 *  
+## Deadline_Days -0.20964    0.05071  -4.134 4.32e-05 ***
+## Meetings       0.97163    0.13960   6.960 1.35e-11 ***
+## Interruptions  2.04272    0.28678   7.123 4.76e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 17.87 on 411 degrees of freedom
+## Multiple R-squared:  0.6085, Adjusted R-squared:  0.6028 
+## F-statistic: 106.5 on 6 and 411 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\subsection{4.5 Comparison of Full and Stepwise MLR
+Models}\label{comparison-of-full-and-stepwise-mlr-models}
+
+\section{The full and stepwise models are compared using model
+fit}\label{the-full-and-stepwise-models-are-compared-using-model-fit}
+
+\section{and complexity measures to determine whether the
+reduced}\label{and-complexity-measures-to-determine-whether-the-reduced}
+
+\section{model provides a more parsimonious
+representation.}\label{model-provides-a-more-parsimonious-representation.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{AIC}\NormalTok{(mlr\_full, mlr\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              df      AIC
+## mlr_full     14 3611.794
+## mlr_stepwise  8 3605.404
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{BIC}\NormalTok{(mlr\_full, mlr\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              df      BIC
+## mlr_full     14 3668.291
+## mlr_stepwise  8 3637.688
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(mlr\_stepwise, mlr\_full)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Meetings + Interruptions
+## Model 2: Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Coffee_Cups + Meetings + Interruptions + Experience_Years + 
+##     Code_Complexity + Remote_Work
+##   Res.Df    RSS Df Sum of Sq      F Pr(>F)
+## 1    411 131228                           
+## 2    405 129479  6    1749.2 0.9119 0.4861
+\end{verbatim}
+
+\#The stepwise model was preferred because it achieved lower AIC and BIC
+values while using fewer predictor terms. The nested-model comparison
+also indicated that the additional terms in the full model did not
+provide a statistically significant improvement in model fit (F = 0.912,
+p = 0.486). Therefore, the reduced stepwise model was selected as the
+more parsimonious MLR specification.
+
+\subsection{4.6 Final MLR Model}\label{final-mlr-model}
+
+\section{Based on the AIC, BIC, and nested-model
+comparison,}\label{based-on-the-aic-bic-and-nested-model-comparison}
+
+\section{the stepwise model is retained as the final
+parsimonious}\label{the-stepwise-model-is-retained-as-the-final-parsimonious}
+
+\section{Multiple Linear Regression
+model.}\label{multiple-linear-regression-model.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mlr\_final }\OtherTok{\textless{}{-}}\NormalTok{ mlr\_stepwise}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(mlr\_final)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Stress_Level ~ Hours_Worked + Sleep_Hours + Bugs + 
+##     Deadline_Days + Meetings + Interruptions, data = train_imputed)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -90.273 -10.149   0.737  10.704  72.854 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   94.78874    4.89736  19.355  < 2e-16 ***
+## Hours_Worked   2.00258    0.24590   8.144 4.63e-15 ***
+## Sleep_Hours   -9.94568    0.48516 -20.500  < 2e-16 ***
+## Bugs           0.12377    0.06031   2.052   0.0408 *  
+## Deadline_Days -0.20964    0.05071  -4.134 4.32e-05 ***
+## Meetings       0.97163    0.13960   6.960 1.35e-11 ***
+## Interruptions  2.04272    0.28678   7.123 4.76e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 17.87 on 411 degrees of freedom
+## Multiple R-squared:  0.6085, Adjusted R-squared:  0.6028 
+## F-statistic: 106.5 on 6 and 411 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\subsection{4.7 Final MLR Diagnostic
+Assessment}\label{final-mlr-diagnostic-assessment}
+
+\section{Diagnostic plots are used to assess the key
+assumptions}\label{diagnostic-plots-are-used-to-assess-the-key-assumptions}
+
+\section{of the final Multiple Linear Regression
+model.}\label{of-the-final-multiple-linear-regression-model.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+
+\FunctionTok{plot}\NormalTok{(mlr\_final)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Developer_Stress_Project2_files/figure-latex/unnamed-chunk-59-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\#The final MLR model demonstrates strong overall statistical
+significance and explains approximately 60.85\% of the variation in
+stress level. Diagnostic plots indicate some departures from the
+classical assumptions, particularly non-linearity, non-normal residual
+tails, and potential heteroscedasticity. A small number of observations
+were flagged for further influence assessment. These observations will
+be evaluated using formal influence diagnostics rather than removed
+solely based on graphical inspection.
+
+\subsection{4.8 Influence Diagnostics}\label{influence-diagnostics}
+
+\section{Potentially influential observations identified from
+the}\label{potentially-influential-observations-identified-from-the}
+
+\section{diagnostic plots are assessed using Cook's
+distance.}\label{diagnostic-plots-are-assessed-using-cooks-distance.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cook\_dist }\OtherTok{\textless{}{-}} \FunctionTok{cooks.distance}\NormalTok{(mlr\_final)}
+
+\FunctionTok{plot}\NormalTok{(}
+\NormalTok{  cook\_dist,}
+  \AttributeTok{type =} \StringTok{"h"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Cook\textquotesingle{}s Distance"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"Observation"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Cook\textquotesingle{}s Distance"}
+\NormalTok{)}
+
+\FunctionTok{abline}\NormalTok{(}
+  \AttributeTok{h =} \DecValTok{4} \SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(train\_imputed),}
+  \AttributeTok{lty =} \DecValTok{2}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Developer_Stress_Project2_files/figure-latex/unnamed-chunk-60-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{which}\NormalTok{(cook\_dist }\SpecialCharTok{\textgreater{}} \DecValTok{4} \SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(train\_imputed))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 180 245  82 375 483  40  35 487 441 393  20 490  55 409 268 223 164 162 526 382 
+##   3   8  27  30  45  74  80 117 127 133 168 198 204 211 215 238 243 245 275 311 
+##  21  30 520 397 334 516  69 
+## 323 327 331 356 364 406 411
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cook\_dist[cook\_dist }\SpecialCharTok{\textgreater{}} \DecValTok{4} \SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(train\_imputed)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         180         245          82         375         483          40 
+## 0.016598158 0.017114537 0.013657586 0.071260590 0.078865715 0.037026186 
+##          35         487         441         393          20         490 
+## 0.012080011 0.009683211 0.023762159 0.009581039 0.012576265 0.018723134 
+##          55         409         268         223         164         162 
+## 0.010066739 0.048988963 0.010616859 0.020440217 0.011118134 0.010968068 
+##         526         382          21          30         520         397 
+## 0.011380374 0.022483155 0.016692715 0.011719450 0.011766326 0.009706939 
+##         334         516          69 
+## 0.034287964 0.010016855 0.027810373
+\end{verbatim}
+
+\subsection{4.8.1 Investigation of Potentially Influential
+Observations}\label{investigation-of-potentially-influential-observations}
+
+\section{Observations exceeding the Cook's distance screening
+threshold}\label{observations-exceeding-the-cooks-distance-screening-threshold}
+
+\section{are inspected to determine whether they represent
+unusual}\label{are-inspected-to-determine-whether-they-represent-unusual}
+
+\section{or potentially influential data
+points.}\label{or-potentially-influential-data-points.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{influential\_obs }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(}
+\NormalTok{  cook\_dist }\SpecialCharTok{\textgreater{}} \DecValTok{4} \SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(train\_imputed)}
+\NormalTok{)}
+
+\NormalTok{train\_imputed[influential\_obs, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked Sleep_Hours Bugs Deadline_Days Coffee_Cups Meetings
+## 180           15           8   30            17           5        8
+## 245            6           8    3            51           8       19
+## 82             7           7   12             7           3        1
+## 375           15           3   20            37           5       10
+## 483            8          10   18            50           5        0
+## 40            16          10   25             8           6        1
+## 35            12           6    3             0           3        1
+## 487            4           7   11            45           0        3
+## 441            4           8   21             3           9       18
+## 393            4           4   31             9           8        0
+## 20             8           6    2            16          10       16
+## 490           15           8   21             3           4       17
+## 55             5           6   18            18          10       15
+## 409            6           7    9             1           4        2
+## 268           15           7   35             4           4        7
+## 223            7           8    7            23           7        0
+## 164           13           9   25            52           2        9
+## 162           10           8   50             1           4       13
+## 526            4           6   34            56           5       20
+## 382            4           4    7            59           9        1
+## 21             5           4   50            58           1        1
+## 30            15           7    1             8           3        2
+## 520            6           6   39            15          10       16
+## 397            8           5   27            18           6        2
+## 334            5           9   11            19           5       16
+## 516            6           8   28            28           6        2
+## 69             7          10   25            58           3       20
+##     Interruptions Experience_Years Code_Complexity Remote_Work Stress_Level
+## 180             4           Junior          Medium         Yes   13.5300000
+## 245             1           Senior             Low          No    0.4926251
+## 82              4           Junior          Medium          No    7.7750874
+## 375            10              Mid          Medium          No   29.5800000
+## 483            10           Senior          Medium         Yes   96.3800000
+## 40              0              Mid             Low          No   72.5400000
+## 35              3              Mid            High         Yes  100.0000000
+## 487             4              Mid          Medium          No    1.2848424
+## 441             6              Mid          Medium          No  100.0000000
+## 393             2           Senior            High          No   98.9185700
+## 20              1           Senior             Low          No   26.1922328
+## 490             0              Mid            High          No  100.0000000
+## 55              1           Senior             Low         Yes   19.9925875
+## 409             0           Junior            High          No  100.0000000
+## 268             0              Mid            High          No   95.9565054
+## 223            10           Junior            High         Yes    3.3867017
+## 164             9           Senior             Low          No   17.0400000
+## 162             8           Senior            High         Yes  100.0000000
+## 526             0              Mid            High         Yes   22.9771318
+## 382             3           Junior          Medium         Yes  100.0000000
+## 21              2           Senior            High          No  100.0000000
+## 30              8           Senior          Medium         Yes   39.8410243
+## 520             0           Senior          Medium          No   24.3104098
+## 397             5              Mid            High          No   22.7000000
+## 334             5           Senior          Medium          No   96.1200000
+## 516            10           Junior             Low         Yes   13.9269341
+## 69              7           Junior             Low          No   76.8300000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_imputed[influential\_obs, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked Sleep_Hours Bugs Deadline_Days Coffee_Cups Meetings
+## 180           15           8   30            17           5        8
+## 245            6           8    3            51           8       19
+## 82             7           7   12             7           3        1
+## 375           15           3   20            37           5       10
+## 483            8          10   18            50           5        0
+## 40            16          10   25             8           6        1
+## 35            12           6    3             0           3        1
+## 487            4           7   11            45           0        3
+## 441            4           8   21             3           9       18
+## 393            4           4   31             9           8        0
+## 20             8           6    2            16          10       16
+## 490           15           8   21             3           4       17
+## 55             5           6   18            18          10       15
+## 409            6           7    9             1           4        2
+## 268           15           7   35             4           4        7
+## 223            7           8    7            23           7        0
+## 164           13           9   25            52           2        9
+## 162           10           8   50             1           4       13
+## 526            4           6   34            56           5       20
+## 382            4           4    7            59           9        1
+## 21             5           4   50            58           1        1
+## 30            15           7    1             8           3        2
+## 520            6           6   39            15          10       16
+## 397            8           5   27            18           6        2
+## 334            5           9   11            19           5       16
+## 516            6           8   28            28           6        2
+## 69             7          10   25            58           3       20
+##     Interruptions Experience_Years Code_Complexity Remote_Work Stress_Level
+## 180             4           Junior          Medium         Yes   13.5300000
+## 245             1           Senior             Low          No    0.4926251
+## 82              4           Junior          Medium          No    7.7750874
+## 375            10              Mid          Medium          No   29.5800000
+## 483            10           Senior          Medium         Yes   96.3800000
+## 40              0              Mid             Low          No   72.5400000
+## 35              3              Mid            High         Yes  100.0000000
+## 487             4              Mid          Medium          No    1.2848424
+## 441             6              Mid          Medium          No  100.0000000
+## 393             2           Senior            High          No   98.9185700
+## 20              1           Senior             Low          No   26.1922328
+## 490             0              Mid            High          No  100.0000000
+## 55              1           Senior             Low         Yes   19.9925875
+## 409             0           Junior            High          No  100.0000000
+## 268             0              Mid            High          No   95.9565054
+## 223            10           Junior            High         Yes    3.3867017
+## 164             9           Senior             Low          No   17.0400000
+## 162             8           Senior            High         Yes  100.0000000
+## 526             0              Mid            High         Yes   22.9771318
+## 382             3           Junior          Medium         Yes  100.0000000
+## 21              2           Senior            High          No  100.0000000
+## 30              8           Senior          Medium         Yes   39.8410243
+## 520             0           Senior          Medium          No   24.3104098
+## 397             5              Mid            High          No   22.7000000
+## 334             5           Senior          Medium          No   96.1200000
+## 516            10           Junior             Low         Yes   13.9269341
+## 69              7           Junior             Low          No   76.8300000
+\end{verbatim}
+
+\subsection{4.8.2 Ranking Influential
+Observations}\label{ranking-influential-observations}
+
+\section{The observations are ranked according to Cook's
+distance}\label{the-observations-are-ranked-according-to-cooks-distance}
+
+\section{to identify those with the greatest potential
+influence}\label{to-identify-those-with-the-greatest-potential-influence}
+
+\section{on the fitted regression
+model.}\label{on-the-fitted-regression-model.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{influence\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Observation =} \FunctionTok{seq\_along}\NormalTok{(cook\_dist),}
+  \AttributeTok{Cooks\_Distance =}\NormalTok{ cook\_dist}
+\NormalTok{)}
+
+\NormalTok{influence\_table }\OtherTok{\textless{}{-}}\NormalTok{ influence\_table[}
+  \FunctionTok{order}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{influence\_table}\SpecialCharTok{$}\NormalTok{Cooks\_Distance),}
+\NormalTok{]}
+
+\FunctionTok{head}\NormalTok{(influence\_table, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Observation Cooks_Distance
+## 483          45     0.07886571
+## 375          30     0.07126059
+## 409         211     0.04898896
+## 40           74     0.03702619
+## 334         364     0.03428796
+## 69          411     0.02781037
+## 441         127     0.02376216
+## 382         311     0.02248316
+## 223         238     0.02044022
+## 490         198     0.01872313
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{top\_influential }\OtherTok{\textless{}{-}}\NormalTok{ influence\_table}\SpecialCharTok{$}\NormalTok{Observation[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+
+\NormalTok{train\_imputed[top\_influential, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked Sleep_Hours Bugs Deadline_Days Coffee_Cups Meetings
+## 483            8          10   18            50           5        0
+## 375           15           3   20            37           5       10
+## 409            6           7    9             1           4        2
+## 40            16          10   25             8           6        1
+## 334            5           9   11            19           5       16
+## 69             7          10   25            58           3       20
+## 441            4           8   21             3           9       18
+## 382            4           4    7            59           9        1
+## 223            7           8    7            23           7        0
+## 490           15           8   21             3           4       17
+##     Interruptions Experience_Years Code_Complexity Remote_Work Stress_Level
+## 483            10           Senior          Medium         Yes    96.380000
+## 375            10              Mid          Medium          No    29.580000
+## 409             0           Junior            High          No   100.000000
+## 40              0              Mid             Low          No    72.540000
+## 334             5           Senior          Medium          No    96.120000
+## 69              7           Junior             Low          No    76.830000
+## 441             6              Mid          Medium          No   100.000000
+## 382             3           Junior          Medium         Yes   100.000000
+## 223            10           Junior            High         Yes     3.386702
+## 490             0              Mid            High          No   100.000000
+\end{verbatim}
+
+\subsection{4.8.3 DFBETAS Assessment}\label{dfbetas-assessment}
+
+\section{DFBETAS are examined to assess whether individual
+observations}\label{dfbetas-are-examined-to-assess-whether-individual-observations}
+
+\section{have a substantial influence on the estimated regression
+coefficients.}\label{have-a-substantial-influence-on-the-estimated-regression-coefficients.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dfbetas\_final }\OtherTok{\textless{}{-}} \FunctionTok{dfbetas}\NormalTok{(mlr\_final)}
+
+\NormalTok{max\_dfbetas }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(}
+  \FunctionTok{abs}\NormalTok{(dfbetas\_final),}
+  \DecValTok{1}\NormalTok{,}
+\NormalTok{  max}
+\NormalTok{)}
+
+\NormalTok{dfbeta\_table }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Observation =} \FunctionTok{seq\_along}\NormalTok{(max\_dfbetas),}
+  \AttributeTok{Max\_DFBETAS =}\NormalTok{ max\_dfbetas}
+\NormalTok{)}
+
+\NormalTok{dfbeta\_table }\OtherTok{\textless{}{-}}\NormalTok{ dfbeta\_table[}
+  \FunctionTok{order}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{dfbeta\_table}\SpecialCharTok{$}\NormalTok{Max\_DFBETAS),}
+\NormalTok{]}
+
+\FunctionTok{head}\NormalTok{(dfbeta\_table, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Observation Max_DFBETAS
+## 483          45   0.4883577
+## 375          30   0.4076564
+## 409         211   0.3694512
+## 334         364   0.3322818
+## 40           74   0.3104752
+## 69          411   0.3091521
+## 382         311   0.2511909
+## 441         127   0.2259833
+## 393         133   0.2151641
+## 180           3   0.2150664
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{2} \SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(train\_imputed))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0978232
+\end{verbatim}
+
+\subsection{4.8.4 Coefficient-Specific Influence
+Assessment}\label{coefficient-specific-influence-assessment}
+
+\section{The DFBETAS matrix is examined to identify which
+regression}\label{the-dfbetas-matrix-is-examined-to-identify-which-regression}
+
+\section{coefficients are most affected by potentially influential
+observations.}\label{coefficients-are-most-affected-by-potentially-influential-observations.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dfbetas\_final[}\FunctionTok{c}\NormalTok{(}\DecValTok{45}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{211}\NormalTok{, }\DecValTok{364}\NormalTok{, }\DecValTok{74}\NormalTok{), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      (Intercept) Hours_Worked Sleep_Hours         Bugs Deadline_Days   Meetings
+## 483 -0.224603680   -0.1081160   0.4883577 -0.085929842     0.1981327 -0.2849662
+## 375  0.092737264   -0.3698542   0.3528185  0.012121880    -0.1154037 -0.0135851
+## 409  0.369451233   -0.1899563   0.1407037 -0.236090212    -0.3128473 -0.2369057
+## 334 -0.002796012   -0.2107364   0.3322818 -0.174941613    -0.1428956  0.1663853
+## 40  -0.094383623    0.2298735   0.3104752  0.004714515    -0.1685929 -0.1551876
+##     Interruptions
+## 483    0.32286221
+## 375   -0.40765639
+## 409   -0.29225589
+## 334    0.01304562
+## 40    -0.22038417
+\end{verbatim}
+
+\#Influence diagnostics identified several observations exceeding the
+DFBETAS screening threshold. The largest coefficient-specific influence
+was observed for observation 483, particularly for Sleep\_Hours.
+However, inspection of the corresponding observations did not reveal
+obvious data-entry errors or invalid cases. Therefore, the observations
+were retained to avoid arbitrary deletion of legitimate observations.
+
+\subsection{4.9 Final MLR Test-Set
+Evaluation}\label{final-mlr-test-set-evaluation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(}
+\NormalTok{  mlr\_final,}
+  \AttributeTok{newdata =}\NormalTok{ test\_data}
+\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(test\_predictions)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1        2        9       15       17       18 
+## 40.06269 50.62200 37.19852 51.51338 85.57777 34.56524
+\end{verbatim}
+
+\subsection{4.9.1 Test-Set Performance
+Metrics}\label{test-set-performance-metrics}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_actual }\OtherTok{\textless{}{-}}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level}
+
+\NormalTok{test\_rmse }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}
+  \FunctionTok{mean}\NormalTok{((test\_actual }\SpecialCharTok{{-}}\NormalTok{ test\_predictions)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{test\_mae }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}
+  \FunctionTok{abs}\NormalTok{(test\_actual }\SpecialCharTok{{-}}\NormalTok{ test\_predictions)}
+\NormalTok{)}
+
+\NormalTok{test\_r2 }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(}
+\NormalTok{  (test\_actual }\SpecialCharTok{{-}}\NormalTok{ test\_predictions)}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(}
+\NormalTok{  (test\_actual }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(test\_actual))}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{)}
+
+\NormalTok{test\_rmse}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_mae}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_r2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] NA
+\end{verbatim}
+
+\subsection{4.9.1.1 Check Missing Values in Test
+Evaluation}\label{check-missing-values-in-test-evaluation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_actual))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_predictions))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.1.2 Identify Test Observations with Missing Predictions}
+
+\FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_predictions))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 222 442 
+##  49  83
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data[}\FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_predictions)), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked Sleep_Hours Bugs Deadline_Days Coffee_Cups Meetings
+## 222           NA           6   23             5          NA       14
+## 442           11           3   30            27           7       NA
+##     Interruptions Experience_Years Code_Complexity Remote_Work Stress_Level
+## 222             2           Senior          Medium          No        75.25
+## 442            NA           Senior            <NA>          No        64.40
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.1.3 Check Missing Predictors in Test Data}
+
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                1                0                0                0 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                1                1                1                0 
+##  Code_Complexity      Remote_Work     Stress_Level 
+##                2                0                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data[}\FunctionTok{is.na}\NormalTok{(test\_predictions), }
+          \FunctionTok{c}\NormalTok{(}\StringTok{"Hours\_Worked"}\NormalTok{,}
+            \StringTok{"Coffee\_Cups"}\NormalTok{,}
+            \StringTok{"Meetings"}\NormalTok{,}
+            \StringTok{"Code\_Complexity"}\NormalTok{)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked Coffee_Cups Meetings Code_Complexity
+## 222           NA          NA       14          Medium
+## 442           11           7       NA            <NA>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.1.4 Training{-}Based Imputation Values}
+
+\NormalTok{median\_hours }\OtherTok{\textless{}{-}} \FunctionTok{median}\NormalTok{(}
+\NormalTok{  train\_data}\SpecialCharTok{$}\NormalTok{Hours\_Worked,}
+  \AttributeTok{na.rm =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{median\_coffee }\OtherTok{\textless{}{-}} \FunctionTok{median}\NormalTok{(}
+\NormalTok{  train\_data}\SpecialCharTok{$}\NormalTok{Coffee\_Cups,}
+  \AttributeTok{na.rm =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{median\_meetings }\OtherTok{\textless{}{-}} \FunctionTok{median}\NormalTok{(}
+\NormalTok{  train\_data}\SpecialCharTok{$}\NormalTok{Meetings,}
+  \AttributeTok{na.rm =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{mode\_code }\OtherTok{\textless{}{-}} \FunctionTok{names}\NormalTok{(}
+  \FunctionTok{sort}\NormalTok{(}
+    \FunctionTok{table}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Code\_Complexity),}
+    \AttributeTok{decreasing =} \ConstantTok{TRUE}
+\NormalTok{  )}
+\NormalTok{)[}\DecValTok{1}\NormalTok{]}
+
+\NormalTok{median\_hours}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{median\_coffee}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{median\_meetings}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mode\_code}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Medium"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.1.5 Apply Training{-}Based Imputation}
+
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Hours\_Worked[}
+  \FunctionTok{is.na}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Hours\_Worked)}
+\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ median\_hours}
+
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Coffee\_Cups[}
+  \FunctionTok{is.na}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Coffee\_Cups)}
+\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ median\_coffee}
+
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Meetings[}
+  \FunctionTok{is.na}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Meetings)}
+\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ median\_meetings}
+
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Code\_Complexity[}
+  \FunctionTok{is.na}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Code\_Complexity)}
+\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ mode\_code}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                0                0                0                0 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                0                0                1                0 
+##  Code_Complexity      Remote_Work     Stress_Level 
+##                0                0                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Interruptions))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 83
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data[}\FunctionTok{is.na}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Interruptions), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked Sleep_Hours Bugs Deadline_Days Coffee_Cups Meetings
+## 442           11           3   30            27           7       10
+##     Interruptions Experience_Years Code_Complexity Remote_Work Stress_Level
+## 442            NA           Senior          Medium          No         64.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.1.6 Training{-}Based Imputation for Interruptions}
+
+\NormalTok{median\_interruptions }\OtherTok{\textless{}{-}} \FunctionTok{median}\NormalTok{(}
+\NormalTok{  train\_data}\SpecialCharTok{$}\NormalTok{Interruptions,}
+  \AttributeTok{na.rm =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{median\_interruptions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.1.7 Complete Training{-}Based Imputation}
+
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Interruptions[}
+  \FunctionTok{is.na}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Interruptions)}
+\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ median\_interruptions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                0                0                0                0 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                0                0                0                0 
+##  Code_Complexity      Remote_Work     Stress_Level 
+##                0                0                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.1.8 Regenerate Test{-}Set Predictions}
+
+\NormalTok{test\_predictions }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(}
+\NormalTok{  mlr\_final,}
+  \AttributeTok{newdata =}\NormalTok{ test\_data}
+\NormalTok{)}
+
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(test\_predictions))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4.9.2 Final Test{-}Set Performance Metrics}
+
+\NormalTok{test\_actual }\OtherTok{\textless{}{-}}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level}
+
+\NormalTok{test\_rmse }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}
+  \FunctionTok{mean}\NormalTok{((test\_actual }\SpecialCharTok{{-}}\NormalTok{ test\_predictions)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{)}
+
+\NormalTok{test\_mae }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}
+  \FunctionTok{abs}\NormalTok{(test\_actual }\SpecialCharTok{{-}}\NormalTok{ test\_predictions)}
+\NormalTok{)}
+
+\NormalTok{test\_r2 }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{{-}}
+  \FunctionTok{sum}\NormalTok{((test\_actual }\SpecialCharTok{{-}}\NormalTok{ test\_predictions)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/}
+  \FunctionTok{sum}\NormalTok{((test\_actual }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(test\_actual))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+
+\NormalTok{test\_rmse}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 16.48257
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_mae}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12.85062
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_r2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5884512
+\end{verbatim}
+
+\#The final MLR model achieved an R² of 0.5885 on the unseen test set,
+compared with an R² of 0.6085 on the training set. The relatively small
+difference between training and test performance suggests that the model
+generalizes reasonably well to unseen observations. The test RMSE was
+16.48 and the MAE was 12.85, indicating that prediction errors remain
+moderate while the model explains approximately 58.85\% of the variation
+in stress level.
+
+\subsection{5.1 Ordinal Target
+Preparation}\label{ordinal-target-preparation}
+
+\section{Determine ordinal stress-category
+cut-points}\label{determine-ordinal-stress-category-cut-points}
+
+\section{using the training data
+only.}\label{using-the-training-data-only.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stress\_cutpoints }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(}
+\NormalTok{  train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level,}
+  \AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{3}\NormalTok{, }\DecValTok{2}\SpecialCharTok{/}\DecValTok{3}\NormalTok{),}
+  \AttributeTok{na.rm =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{stress\_cutpoints}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 33.33333% 66.66667% 
+##  64.08702 100.00000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.1.2 Create Ordinal Stress Categories}
+
+\NormalTok{train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}=}\NormalTok{ stress\_cutpoints[}\DecValTok{1}\NormalTok{],}
+  \StringTok{"Low"}\NormalTok{,}
+  \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{    train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}}\NormalTok{ stress\_cutpoints[}\DecValTok{2}\NormalTok{],}
+    \StringTok{"Moderate"}\NormalTok{,}
+    \StringTok{"High"}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}=}\NormalTok{ stress\_cutpoints[}\DecValTok{1}\NormalTok{],}
+  \StringTok{"Low"}\NormalTok{,}
+  \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{    test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}}\NormalTok{ stress\_cutpoints[}\DecValTok{2}\NormalTok{],}
+    \StringTok{"Moderate"}\NormalTok{,}
+    \StringTok{"High"}
+\NormalTok{  )}
+\NormalTok{)}
+
+\CommentTok{\# Convert to ordered factors}
+\NormalTok{train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}
+\NormalTok{  train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category,}
+  \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"High"}\NormalTok{),}
+  \AttributeTok{ordered =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}
+\NormalTok{  test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category,}
+  \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"High"}\NormalTok{),}
+  \AttributeTok{ordered =} \ConstantTok{TRUE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      Low Moderate     High 
+##      140       93      185
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##      Low Moderate     High 
+##       33       22       50
+\end{verbatim}
+
+\#Target Variable Categorization for Ordinal Logistic Regression
+
+\#The original response variable, Stress\_Level, is continuous and
+therefore is not directly suitable as the response variable in an
+ordinal logistic regression model. To enable ordinal classification,
+Stress\_Level was transformed into three ordered categories: Low,
+Moderate, and High.
+
+\#Initially, quantile-based tertile discretization was considered to
+create approximately balanced groups. The training-data tertile
+cut-points were 64.08702 and 100.00. However, because the upper tertile
+boundary coincided with the maximum observed stress value of 100,
+conventional tertile binning produced zero observations in the High
+category. A category with zero observations cannot provide sufficient
+information for estimating an ordinal logistic regression model.
+
+\#Therefore, a boundary-aware categorization was adopted. Observations
+with Stress\_Level ≤ 64.08702 were classified as Low, observations with
+64.08702 \textless{} Stress\_Level \textless{} 100 were classified as
+Moderate, and observations with Stress\_Level = 100 were classified as
+High.
+
+\#The resulting categories preserve the natural ordering of stress
+severity (Low \textless{} Moderate \textless{} High) while ensuring that
+all three categories are represented in both the training and test sets.
+This provides an appropriate response structure for ordinal logistic
+regression and avoids the zero-frequency category problem encountered
+with the original tertile implementation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.2 Ordinal Logistic Regression}
+
+\FunctionTok{library}\NormalTok{(MASS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(train\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Ord.factor w/ 3 levels "Low"<"Moderate"<..: 2 2 1 3 3 3 1 1 1 1 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(train\_data[, }\FunctionTok{c}\NormalTok{(}
+  \StringTok{"Hours\_Worked"}\NormalTok{,}
+  \StringTok{"Sleep\_Hours"}\NormalTok{,}
+  \StringTok{"Bugs"}\NormalTok{,}
+  \StringTok{"Deadline\_Days"}\NormalTok{,}
+  \StringTok{"Coffee\_Cups"}\NormalTok{,}
+  \StringTok{"Meetings"}\NormalTok{,}
+  \StringTok{"Interruptions"}\NormalTok{,}
+  \StringTok{"Experience\_Years"}\NormalTok{,}
+  \StringTok{"Code\_Complexity"}\NormalTok{,}
+  \StringTok{"Remote\_Work"}
+\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    418 obs. of  10 variables:
+##  $ Hours_Worked    : int  14 15 15 4 4 15 4 6 8 4 ...
+##  $ Sleep_Hours     : int  5 6 8 4 3 3 8 8 8 8 ...
+##  $ Bugs            : int  18 45 30 14 36 5 25 3 29 28 ...
+##  $ Deadline_Days   : int  16 11 17 24 28 33 36 51 46 24 ...
+##  $ Coffee_Cups     : int  5 9 5 3 5 4 5 8 10 2 ...
+##  $ Meetings        : int  10 13 8 7 5 19 17 19 0 6 ...
+##  $ Interruptions   : int  5 3 4 7 5 6 3 1 3 10 ...
+##  $ Experience_Years: chr  "Mid" "Mid" "Junior" "Mid" ...
+##  $ Code_Complexity : chr  "Low" "Low" NA "Low" ...
+##  $ Remote_Work     : chr  "No" "No" "Yes" "No" ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.2.1 Final Missing{-}Value Check for Ordinal Model}
+
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(train\_data[, }\FunctionTok{c}\NormalTok{(}
+  \StringTok{"Stress\_Category"}\NormalTok{,}
+  \StringTok{"Hours\_Worked"}\NormalTok{,}
+  \StringTok{"Sleep\_Hours"}\NormalTok{,}
+  \StringTok{"Bugs"}\NormalTok{,}
+  \StringTok{"Deadline\_Days"}\NormalTok{,}
+  \StringTok{"Coffee\_Cups"}\NormalTok{,}
+  \StringTok{"Meetings"}\NormalTok{,}
+  \StringTok{"Interruptions"}\NormalTok{,}
+  \StringTok{"Experience\_Years"}\NormalTok{,}
+  \StringTok{"Code\_Complexity"}\NormalTok{,}
+  \StringTok{"Remote\_Work"}
+\NormalTok{)]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Stress_Category     Hours_Worked      Sleep_Hours             Bugs 
+##                0                3                2                3 
+##    Deadline_Days      Coffee_Cups         Meetings    Interruptions 
+##                3                3                4                1 
+## Experience_Years  Code_Complexity      Remote_Work 
+##                3                2                5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.2.2 Prepare Clean Data for Ordinal Logistic Regression}
+
+\NormalTok{ordinal\_train }\OtherTok{\textless{}{-}}\NormalTok{ train\_imputed}
+\NormalTok{ordinal\_test  }\OtherTok{\textless{}{-}}\NormalTok{ test\_data}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}=}\NormalTok{ stress\_cutpoints[}\DecValTok{1}\NormalTok{],}
+  \StringTok{"Low"}\NormalTok{,}
+  \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{    ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}}\NormalTok{ stress\_cutpoints[}\DecValTok{2}\NormalTok{],}
+    \StringTok{"Moderate"}\NormalTok{,}
+    \StringTok{"High"}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{ordinal\_test}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  ordinal\_test}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}=}\NormalTok{ stress\_cutpoints[}\DecValTok{1}\NormalTok{],}
+  \StringTok{"Low"}\NormalTok{,}
+  \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{    ordinal\_test}\SpecialCharTok{$}\NormalTok{Stress\_Level }\SpecialCharTok{\textless{}}\NormalTok{ stress\_cutpoints[}\DecValTok{2}\NormalTok{],}
+    \StringTok{"Moderate"}\NormalTok{,}
+    \StringTok{"High"}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}
+\NormalTok{  ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Category,}
+  \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"High"}\NormalTok{),}
+  \AttributeTok{ordered =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{ordinal\_test}\SpecialCharTok{$}\NormalTok{Stress\_Category }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}
+\NormalTok{  ordinal\_test}\SpecialCharTok{$}\NormalTok{Stress\_Category,}
+  \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"High"}\NormalTok{),}
+  \AttributeTok{ordered =} \ConstantTok{TRUE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(ordinal\_train))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                0                0                0                0 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                0                0                0                0 
+##  Code_Complexity      Remote_Work     Stress_Level  Stress_Category 
+##                0                0                0                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(ordinal\_test))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Hours_Worked      Sleep_Hours             Bugs    Deadline_Days 
+##                0                0                0                0 
+##      Coffee_Cups         Meetings    Interruptions Experience_Years 
+##                0                0                0                0 
+##  Code_Complexity      Remote_Work     Stress_Level  Stress_Category 
+##                0                0                0                0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.3 Baseline Ordinal Logistic Regression Model}
+
+\NormalTok{ordinal\_full }\OtherTok{\textless{}{-}}\NormalTok{ MASS}\SpecialCharTok{::}\FunctionTok{polr}\NormalTok{(}
+\NormalTok{  Stress\_Category }\SpecialCharTok{\textasciitilde{}}
+\NormalTok{    Hours\_Worked }\SpecialCharTok{+}
+\NormalTok{    Sleep\_Hours }\SpecialCharTok{+}
+\NormalTok{    Bugs }\SpecialCharTok{+}
+\NormalTok{    Deadline\_Days }\SpecialCharTok{+}
+\NormalTok{    Meetings }\SpecialCharTok{+}
+\NormalTok{    Interruptions,}
+  \AttributeTok{data =}\NormalTok{ ordinal\_train,}
+  \AttributeTok{Hess =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(ordinal\_full)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## MASS::polr(formula = Stress_Category ~ Hours_Worked + Sleep_Hours + 
+##     Bugs + Deadline_Days + Meetings + Interruptions, data = ordinal_train, 
+##     Hess = TRUE)
+## 
+## Coefficients:
+##                   Value Std. Error t value
+## Hours_Worked   0.192768   0.036230   5.321
+## Sleep_Hours   -1.387112   0.108123 -12.829
+## Bugs           0.008301   0.008262   1.005
+## Deadline_Days -0.025874   0.007180  -3.604
+## Meetings       0.141940   0.021646   6.557
+## Interruptions  0.314623   0.046096   6.825
+## 
+## Intercepts:
+##               Value    Std. Error t value 
+## Low|Moderate   -5.0111   0.7157    -7.0017
+## Moderate|High  -2.8418   0.6673    -4.2583
+## 
+## Residual Deviance: 503.3177 
+## AIC: 519.3177
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(ordinal\_full)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## MASS::polr(formula = Stress_Category ~ Hours_Worked + Sleep_Hours + 
+##     Bugs + Deadline_Days + Meetings + Interruptions, data = ordinal_train, 
+##     Hess = TRUE)
+## 
+## Coefficients:
+##                   Value Std. Error t value
+## Hours_Worked   0.192768   0.036230   5.321
+## Sleep_Hours   -1.387112   0.108123 -12.829
+## Bugs           0.008301   0.008262   1.005
+## Deadline_Days -0.025874   0.007180  -3.604
+## Meetings       0.141940   0.021646   6.557
+## Interruptions  0.314623   0.046096   6.825
+## 
+## Intercepts:
+##               Value    Std. Error t value 
+## Low|Moderate   -5.0111   0.7157    -7.0017
+## Moderate|High  -2.8418   0.6673    -4.2583
+## 
+## Residual Deviance: 503.3177 
+## AIC: 519.3177
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.3.1 Odds Ratios for Ordinal Logistic Regression}
+
+\NormalTok{ordinal\_coef }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(ordinal\_full)}
+
+\NormalTok{ordinal\_OR }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(ordinal\_coef)}
+
+\NormalTok{ordinal\_OR}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Hours_Worked   Sleep_Hours          Bugs Deadline_Days      Meetings 
+##     1.2126014     0.2497957     1.0083360     0.9744578     1.1525075 
+## Interruptions 
+##     1.3697434
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.3.2 Statistical Significance of Ordinal Model Coefficients}
+
+\NormalTok{ordinal\_coef\_table }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(}\FunctionTok{summary}\NormalTok{(ordinal\_full))}
+
+\NormalTok{ordinal\_predictors }\OtherTok{\textless{}{-}}\NormalTok{ ordinal\_coef\_table[}
+  \FunctionTok{rownames}\NormalTok{(ordinal\_coef\_table) }\SpecialCharTok{\%in\%} \FunctionTok{names}\NormalTok{(}\FunctionTok{coef}\NormalTok{(ordinal\_full)),}
+\NormalTok{  ]}
+
+\NormalTok{ordinal\_pvalues }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*} \FunctionTok{pnorm}\NormalTok{(}
+  \FunctionTok{abs}\NormalTok{(ordinal\_predictors[, }\StringTok{"t value"}\NormalTok{]),}
+  \AttributeTok{lower.tail =} \ConstantTok{FALSE}
+\NormalTok{)}
+
+\NormalTok{ordinal\_results }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Estimate =}\NormalTok{ ordinal\_predictors[, }\StringTok{"Value"}\NormalTok{],}
+  \AttributeTok{Odds\_Ratio =} \FunctionTok{exp}\NormalTok{(ordinal\_predictors[, }\StringTok{"Value"}\NormalTok{]),}
+  \AttributeTok{Std\_Error =}\NormalTok{ ordinal\_predictors[, }\StringTok{"Std. Error"}\NormalTok{],}
+  \AttributeTok{t\_value =}\NormalTok{ ordinal\_predictors[, }\StringTok{"t value"}\NormalTok{],}
+  \AttributeTok{p\_value =}\NormalTok{ ordinal\_pvalues}
+\NormalTok{)}
+
+\NormalTok{ordinal\_results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   Estimate Odds_Ratio   Std_Error    t_value      p_value
+## Hours_Worked   0.192767990  1.2126014 0.036230157   5.320650 1.033971e-07
+## Sleep_Hours   -1.387111734  0.2497957 0.108123229 -12.828989 1.128266e-37
+## Bugs           0.008301404  1.0083360 0.008261526   1.004827 3.149802e-01
+## Deadline_Days -0.025874095  0.9744578 0.007180000  -3.603635 3.137982e-04
+## Meetings       0.141940001  1.1525075 0.021645726   6.557415 5.474863e-11
+## Interruptions  0.314623458  1.3697434 0.046096081   6.825384 8.769039e-12
+\end{verbatim}
+
+\#Hours Worked: statistically significant positive predictor. More
+working hours are associated with higher stress categories. \#Sleep
+Hours: statistically significant negative predictor. More sleep is
+associated with substantially lower odds of being in a higher stress
+category. \#Bugs: not statistically significant because p = 0.3149
+\textgreater{} 0.05. Therefore, there is insufficient evidence that the
+number of bugs has an independent effect on stress category after
+controlling for the other predictors. \#Deadline Days: statistically
+significant negative predictor. More days available before a deadline
+are associated with lower stress. \#Meetings: statistically significant
+positive predictor. More meetings are associated with higher stress.
+\#Interruptions: statistically significant positive predictor and has
+the largest positive odds ratio among the predictors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5.3.3 Reduced Ordinal Logistic Model}
+
+\NormalTok{ordinal\_reduced }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(}
+\NormalTok{  Stress\_Category }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Hours\_Worked }\SpecialCharTok{+}
+\NormalTok{    Sleep\_Hours }\SpecialCharTok{+}
+\NormalTok{    Deadline\_Days }\SpecialCharTok{+}
+\NormalTok{    Meetings }\SpecialCharTok{+}
+\NormalTok{    Interruptions,}
+  \AttributeTok{data =}\NormalTok{ ordinal\_train,}
+  \AttributeTok{Hess =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(ordinal\_reduced)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## polr(formula = Stress_Category ~ Hours_Worked + Sleep_Hours + 
+##     Deadline_Days + Meetings + Interruptions, data = ordinal_train, 
+##     Hess = TRUE)
+## 
+## Coefficients:
+##                  Value Std. Error t value
+## Hours_Worked   0.18876   0.035962   5.249
+## Sleep_Hours   -1.38424   0.107814 -12.839
+## Deadline_Days -0.02631   0.007167  -3.671
+## Meetings       0.14105   0.021553   6.544
+## Interruptions  0.31026   0.045709   6.788
+## 
+## Intercepts:
+##               Value    Std. Error t value 
+## Low|Moderate   -5.2786   0.6674    -7.9091
+## Moderate|High  -3.1130   0.6127    -5.0808
+## 
+## Residual Deviance: 504.3309 
+## AIC: 518.3309
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS)}
+
+\NormalTok{ordinal\_stepwise }\OtherTok{\textless{}{-}} \FunctionTok{stepAIC}\NormalTok{(}
+\NormalTok{  ordinal\_full,}
+  \AttributeTok{direction =} \StringTok{"both"}\NormalTok{,}
+  \AttributeTok{trace =} \ConstantTok{TRUE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Start:  AIC=519.32
+## Stress_Category ~ Hours_Worked + Sleep_Hours + Bugs + Deadline_Days + 
+##     Meetings + Interruptions
+## 
+##                 Df    AIC
+## - Bugs           1 518.33
+## <none>             519.32
+## - Deadline_Days  1 530.72
+## - Hours_Worked   1 547.98
+## - Meetings       1 566.11
+## - Interruptions  1 571.82
+## - Sleep_Hours    1 831.29
+## 
+## Step:  AIC=518.33
+## Stress_Category ~ Hours_Worked + Sleep_Hours + Deadline_Days + 
+##     Meetings + Interruptions
+## 
+##                 Df    AIC
+## <none>             518.33
+## + Bugs           1 519.32
+## - Deadline_Days  1 530.26
+## - Hours_Worked   1 546.13
+## - Meetings       1 564.80
+## - Interruptions  1 569.98
+## - Sleep_Hours    1 830.01
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(ordinal\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## MASS::polr(formula = Stress_Category ~ Hours_Worked + Sleep_Hours + 
+##     Deadline_Days + Meetings + Interruptions, data = ordinal_train, 
+##     Hess = TRUE)
+## 
+## Coefficients:
+##                  Value Std. Error t value
+## Hours_Worked   0.18876   0.035962   5.249
+## Sleep_Hours   -1.38424   0.107814 -12.839
+## Deadline_Days -0.02631   0.007167  -3.671
+## Meetings       0.14105   0.021553   6.544
+## Interruptions  0.31026   0.045709   6.788
+## 
+## Intercepts:
+##               Value    Std. Error t value 
+## Low|Moderate   -5.2786   0.6674    -7.9091
+## Moderate|High  -3.1130   0.6127    -5.0808
+## 
+## Residual Deviance: 504.3309 
+## AIC: 518.3309
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{formula}\NormalTok{(ordinal\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Stress_Category ~ Hours_Worked + Sleep_Hours + Deadline_Days + 
+##     Meetings + Interruptions
+## attr(,"variables")
+## list(Stress_Category, Hours_Worked, Sleep_Hours, Deadline_Days, 
+##     Meetings, Interruptions)
+## attr(,"factors")
+##                 Hours_Worked Sleep_Hours Deadline_Days Meetings Interruptions
+## Stress_Category            0           0             0        0             0
+## Hours_Worked               1           0             0        0             0
+## Sleep_Hours                0           1             0        0             0
+## Deadline_Days              0           0             1        0             0
+## Meetings                   0           0             0        1             0
+## Interruptions              0           0             0        0             1
+## attr(,"term.labels")
+## [1] "Hours_Worked"  "Sleep_Hours"   "Deadline_Days" "Meetings"     
+## [5] "Interruptions"
+## attr(,"order")
+## [1] 1 1 1 1 1
+## attr(,"intercept")
+## [1] 1
+## attr(,"response")
+## [1] 1
+## attr(,"predvars")
+## list(Stress_Category, Hours_Worked, Sleep_Hours, Deadline_Days, 
+##     Meetings, Interruptions)
+## attr(,"dataClasses")
+## Stress_Category    Hours_Worked     Sleep_Hours   Deadline_Days        Meetings 
+##       "ordered"       "numeric"       "numeric"       "numeric"       "numeric" 
+##   Interruptions 
+##       "numeric"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{AIC}\NormalTok{(ordinal\_full, ordinal\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  df      AIC
+## ordinal_full      8 519.3177
+## ordinal_stepwise  7 518.3309
+\end{verbatim}
+
+\#The full ordinal logistic regression model was compared with the
+AIC-based stepwise model. The stepwise model reduced the number of
+estimated parameters from 8 to 7 and reduced the AIC from 519.3177 to
+518.3309. Therefore, the stepwise model was preferred because it
+achieved a lower AIC while using fewer parameters, providing a more
+parsimonious representation of the relationship between the predictors
+and stress category.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(ordinal\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## MASS::polr(formula = Stress_Category ~ Hours_Worked + Sleep_Hours + 
+##     Deadline_Days + Meetings + Interruptions, data = ordinal_train, 
+##     Hess = TRUE)
+## 
+## Coefficients:
+##                  Value Std. Error t value
+## Hours_Worked   0.18876   0.035962   5.249
+## Sleep_Hours   -1.38424   0.107814 -12.839
+## Deadline_Days -0.02631   0.007167  -3.671
+## Meetings       0.14105   0.021553   6.544
+## Interruptions  0.31026   0.045709   6.788
+## 
+## Intercepts:
+##               Value    Std. Error t value 
+## Low|Moderate   -5.2786   0.6674    -7.9091
+## Moderate|High  -3.1130   0.6127    -5.0808
+## 
+## Residual Deviance: 504.3309 
+## AIC: 518.3309
+\end{verbatim}
+
+\#Stress Category∼Hours Worked+Sleep Hours+Deadline
+Days+Meetings+Interruptions
+
+\#The AIC-based stepwise ordinal logistic regression retained Hours
+Worked, Sleep Hours, Deadline Days, Meetings, and Interruptions, while
+removing Bugs. The retained predictors show meaningful directional
+relationships with stress category. Hours Worked, Meetings, and
+Interruptions have positive coefficients, indicating that increases in
+these variables are associated with a greater likelihood of being in a
+higher stress category. Sleep Hours and Deadline Days have negative
+coefficients, indicating an association with lower stress categories.
+Among the retained predictors, Sleep Hours has the largest absolute
+t-value (12.839), suggesting the strongest statistical evidence of
+association with stress category. The selected model has an AIC of
+518.3309, which is lower than the full model AIC of 519.3177, supporting
+the more parsimonious stepwise model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\FunctionTok{coef}\NormalTok{(ordinal\_stepwise))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  Hours_Worked   Sleep_Hours Deadline_Days      Meetings Interruptions 
+##     1.2077554     0.2505136     0.9740315     1.1514773     1.3637825
+\end{verbatim}
+
+\#The final stepwise ordinal logistic regression model indicates that
+Hours Worked, Meetings, and Interruptions are positively associated with
+higher stress categories, while Sleep Hours and Deadline Days are
+negatively associated with higher stress categories. Among the
+predictors, Interruptions show the strongest positive association, with
+each additional interruption increasing the odds of being in a higher
+stress category by approximately 36.4\%. In contrast, Sleep Hours has
+the strongest protective association, with each additional hour of sleep
+associated with approximately a 75.0\% reduction in the odds of higher
+stress.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_stepwise\_summary }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(ordinal\_stepwise)}
+
+\NormalTok{ordinal\_coef }\OtherTok{\textless{}{-}}\NormalTok{ ordinal\_stepwise\_summary}\SpecialCharTok{$}\NormalTok{coefficients}
+
+\NormalTok{ordinal\_pvalues }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*} \FunctionTok{pnorm}\NormalTok{(}
+  \FunctionTok{abs}\NormalTok{(ordinal\_coef[, }\StringTok{"t value"}\NormalTok{]),}
+  \AttributeTok{lower.tail =} \ConstantTok{FALSE}
+\NormalTok{)}
+
+\NormalTok{ordinal\_stepwise\_results }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Estimate =}\NormalTok{ ordinal\_coef[, }\StringTok{"Value"}\NormalTok{],}
+  \AttributeTok{Odds\_Ratio =} \FunctionTok{exp}\NormalTok{(ordinal\_coef[, }\StringTok{"Value"}\NormalTok{]),}
+  \AttributeTok{Std\_Error =}\NormalTok{ ordinal\_coef[, }\StringTok{"Std. Error"}\NormalTok{],}
+  \AttributeTok{t\_value =}\NormalTok{ ordinal\_coef[, }\StringTok{"t value"}\NormalTok{],}
+  \AttributeTok{p\_value =}\NormalTok{ ordinal\_pvalues}
+\NormalTok{)}
+
+\NormalTok{ordinal\_stepwise\_results}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  Estimate Odds_Ratio   Std_Error    t_value      p_value
+## Hours_Worked   0.18876357 1.20775537 0.035962272   5.248933 1.529824e-07
+## Sleep_Hours   -1.38424221 0.25051356 0.107813800 -12.839193 9.889975e-38
+## Deadline_Days -0.02631161 0.97403152 0.007167387  -3.671019 2.415851e-04
+## Meetings       0.14104576 1.15147733 0.021552769   6.544206 5.981238e-11
+## Interruptions  0.31026206 1.36378245 0.045708909   6.787781 1.138715e-11
+## Low|Moderate  -5.27858927 0.00509962 0.667406935  -7.909102 2.592529e-15
+## Moderate|High -3.11296338 0.04446898 0.612691964  -5.080797 3.758550e-07
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(brant)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'brant' was built under R version 4.5.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{brant}\NormalTok{(ordinal\_stepwise)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -------------------------------------------- 
+## Test for X2  df  probability 
+## -------------------------------------------- 
+## Omnibus      30.81   5   0
+## Hours_Worked 0.33    1   0.57
+## Sleep_Hours  12.07   1   0
+## Deadline_Days    0.4 1   0.53
+## Meetings 1.05    1   0.31
+## Interruptions    1.92    1   0.17
+## -------------------------------------------- 
+## 
+## H0: Parallel Regression Assumption holds
+\end{verbatim}
+
+\#Null hypothesis \(H_0\):
+
+\#The proportional odds assumption holds.
+
+\#Alternative hypothesis \(H_1\):
+
+\#The proportional odds assumption is violated.
+
+\#Use:
+
+\[ \alpha = 0.05 \] \#Therefore:
+
+\#p-value \textgreater{} 0.05 → fail to reject \(H_0\) → assumption is
+supported \#p-value \textless{} 0.05 → reject \(H_0\) → assumption is
+violated
+
+\#The proportional-odds assumption was assessed using the Brant test.
+The omnibus test was statistically significant (χ² = 30.81, df = 5, p
+\textless{} 0.001), indicating that the proportional-odds assumption is
+not fully satisfied for the overall model. At the individual predictor
+level, Hours Worked, Deadline Days, Meetings, and Interruptions did not
+show significant evidence of assumption violations (p \textgreater{}
+0.05). However, Sleep Hours significantly violated the proportional-odds
+assumption (χ² = 12.07, df = 1, p \textless{} 0.001), suggesting that
+its effect differs across the cumulative stress-category thresholds
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Binary comparison 1}
+\NormalTok{ordinal\_low }\OtherTok{\textless{}{-}} \FunctionTok{polr}\NormalTok{(}
+\NormalTok{  Stress\_Category }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Hours\_Worked }\SpecialCharTok{+}\NormalTok{ Sleep\_Hours }\SpecialCharTok{+}
+\NormalTok{    Deadline\_Days }\SpecialCharTok{+}\NormalTok{ Meetings }\SpecialCharTok{+}\NormalTok{ Interruptions,}
+  \AttributeTok{data =}\NormalTok{ ordinal\_train,}
+  \AttributeTok{Hess =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(ordinal\_low)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## polr(formula = Stress_Category ~ Hours_Worked + Sleep_Hours + 
+##     Deadline_Days + Meetings + Interruptions, data = ordinal_train, 
+##     Hess = TRUE)
+## 
+## Coefficients:
+##                  Value Std. Error t value
+## Hours_Worked   0.18876   0.035962   5.249
+## Sleep_Hours   -1.38424   0.107814 -12.839
+## Deadline_Days -0.02631   0.007167  -3.671
+## Meetings       0.14105   0.021553   6.544
+## Interruptions  0.31026   0.045709   6.788
+## 
+## Intercepts:
+##               Value    Std. Error t value 
+## Low|Moderate   -5.2786   0.6674    -7.9091
+## Moderate|High  -3.1130   0.6127    -5.0808
+## 
+## Residual Deviance: 504.3309 
+## AIC: 518.3309
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Category }\SpecialCharTok{==} \StringTok{"Low"}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}
+\NormalTok{)}
+
+\NormalTok{ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_High\_vs\_Lower }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Category }\SpecialCharTok{==} \StringTok{"High"}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##   0   1 
+## 140 278
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_High\_vs\_Lower)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##   0   1 
+## 233 185
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_low }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}
+\NormalTok{  Stress\_Low\_vs\_Higher }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Hours\_Worked }\SpecialCharTok{+}\NormalTok{ Sleep\_Hours }\SpecialCharTok{+}
+\NormalTok{    Deadline\_Days }\SpecialCharTok{+}\NormalTok{ Meetings }\SpecialCharTok{+}\NormalTok{ Interruptions,}
+  \AttributeTok{data =}\NormalTok{ ordinal\_train,}
+  \AttributeTok{family =}\NormalTok{ binomial}
+\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(model\_low)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = Stress_Low_vs_Higher ~ Hours_Worked + Sleep_Hours + 
+##     Deadline_Days + Meetings + Interruptions, family = binomial, 
+##     data = ordinal_train)
+## 
+## Coefficients:
+##                Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)    3.145612   0.762265   4.127 3.68e-05 ***
+## Hours_Worked   0.211891   0.046376   4.569 4.90e-06 ***
+## Sleep_Hours   -1.135661   0.124303  -9.136  < 2e-16 ***
+## Deadline_Days -0.023937   0.008383  -2.855   0.0043 ** 
+## Meetings       0.155546   0.027143   5.731 1.00e-08 ***
+## Interruptions  0.340803   0.057279   5.950 2.68e-09 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 533.05  on 417  degrees of freedom
+## Residual deviance: 294.56  on 412  degrees of freedom
+## AIC: 306.56
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_high }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}
+\NormalTok{  Stress\_High\_vs\_Lower }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Hours\_Worked }\SpecialCharTok{+}\NormalTok{ Sleep\_Hours }\SpecialCharTok{+}
+\NormalTok{    Deadline\_Days }\SpecialCharTok{+}\NormalTok{ Meetings }\SpecialCharTok{+}\NormalTok{ Interruptions,}
+  \AttributeTok{data =}\NormalTok{ ordinal\_train,}
+  \AttributeTok{family =}\NormalTok{ binomial}
+\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(model\_high)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = Stress_High_vs_Lower ~ Hours_Worked + Sleep_Hours + 
+##     Deadline_Days + Meetings + Interruptions, family = binomial, 
+##     data = ordinal_train)
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)    5.62603    0.86291   6.520 7.04e-11 ***
+## Hours_Worked   0.17970    0.04921   3.651 0.000261 ***
+## Sleep_Hours   -1.73355    0.16833 -10.299  < 2e-16 ***
+## Deadline_Days -0.03068    0.01007  -3.047 0.002308 ** 
+## Meetings       0.12279    0.02844   4.317 1.58e-05 ***
+## Interruptions  0.24326    0.06160   3.949 7.86e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 573.95  on 417  degrees of freedom
+## Residual deviance: 233.23  on 412  degrees of freedom
+## AIC: 245.23
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\#To investigate the violation of the proportional-odds assumption, two
+threshold-specific binary logistic regression models were examined. The
+coefficient for Sleep Hours differed substantially between the Low
+versus Moderate/High comparison (β = −1.136) and the Low/Moderate versus
+High comparison (β = −1.734). This indicates that the effect of Sleep
+Hours varies across the cumulative stress thresholds, providing a
+practical explanation for the significant Brant test result (χ² = 12.07,
+p \textless{} 0.001). The remaining predictors did not show
+statistically significant evidence of violating the proportional-odds
+assumption. Therefore, Sleep Hours should be interpreted with caution
+under the standard proportional-odds model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_vs\_lower }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}
+\NormalTok{  Stress\_High\_vs\_Lower }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Hours\_Worked }\SpecialCharTok{+}\NormalTok{ Sleep\_Hours }\SpecialCharTok{+}
+\NormalTok{    Deadline\_Days }\SpecialCharTok{+}\NormalTok{ Meetings }\SpecialCharTok{+}\NormalTok{ Interruptions,}
+  \AttributeTok{family =}\NormalTok{ binomial,}
+  \AttributeTok{data =}\NormalTok{ ordinal\_train}
+\NormalTok{)}
+
+\NormalTok{low\_vs\_higher }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}
+\NormalTok{  Stress\_Low\_vs\_Higher }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Hours\_Worked }\SpecialCharTok{+}\NormalTok{ Sleep\_Hours }\SpecialCharTok{+}
+\NormalTok{    Deadline\_Days }\SpecialCharTok{+}\NormalTok{ Meetings }\SpecialCharTok{+}\NormalTok{ Interruptions,}
+  \AttributeTok{family =}\NormalTok{ binomial,}
+  \AttributeTok{data =}\NormalTok{ ordinal\_train}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\FunctionTok{coef}\NormalTok{(high\_vs\_lower))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   (Intercept)  Hours_Worked   Sleep_Hours Deadline_Days      Meetings 
+##   277.5575002     1.1968616     0.1766560     0.9697829     1.1306421 
+## Interruptions 
+##     1.2753949
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\FunctionTok{coef}\NormalTok{(low\_vs\_higher))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   (Intercept)  Hours_Worked   Sleep_Hours Deadline_Days      Meetings 
+##    23.2338972     1.2360128     0.3212096     0.9763473     1.1682961 
+## Interruptions 
+##     1.4060768
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\FunctionTok{confint}\NormalTok{(high\_vs\_lower))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Waiting for profiling to be done...
+\end{verbatim}
+
+\begin{verbatim}
+##                    2.5 %       97.5 %
+## (Intercept)   55.0840684 1644.9886624
+## Hours_Worked   1.0896276    1.3225787
+## Sleep_Hours    0.1235672    0.2397829
+## Deadline_Days  0.9502648    0.9886930
+## Meetings       1.0712316    1.1981589
+## Interruptions  1.1346526    1.4460661
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\FunctionTok{confint}\NormalTok{(low\_vs\_higher))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Waiting for profiling to be done...
+\end{verbatim}
+
+\begin{verbatim}
+##                   2.5 %      97.5 %
+## (Intercept)   5.4469084 109.3355117
+## Hours_Worked  1.1318590   1.3583882
+## Sleep_Hours   0.2474548   0.4035807
+## Deadline_Days 0.9601350   0.9923078
+## Meetings      1.1099376   1.2350032
+## Interruptions 1.2623626   1.5813622
+\end{verbatim}
+
+\#The 95\% confidence intervals for the odds ratios were examined to
+assess the precision and statistical significance of the estimated
+effects. For both binary logistic regression models, the confidence
+intervals for all five predictors excluded an odds ratio of 1,
+indicating statistically significant associations with the respective
+outcomes. Hours Worked, Meetings, and Interruptions had odds ratios
+greater than 1, indicating increased odds of the coded stress-related
+outcome. Sleep Hours had an odds ratio substantially below 1, indicating
+a strong negative association. Deadline Days had an odds ratio slightly
+below 1, suggesting a relatively small negative association. The
+consistency of these effects across both binary comparisons provides
+additional evidence that these variables are important predictors of
+stress classification.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_pred\_class }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(}
+\NormalTok{  ordinal\_stepwise,}
+  \AttributeTok{newdata =}\NormalTok{ test\_data,}
+  \AttributeTok{type =} \StringTok{"class"}
+\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(ordinal\_pred\_class)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] Low  Low  Low  Low  High Low 
+## Levels: Low Moderate High
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(ordinal\_pred\_class)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ordinal_pred_class
+##      Low Moderate     High 
+##       35       21       49
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] Low      Low      Low      Low      High     Low      Moderate Moderate
+##   [9] High     High     Moderate Moderate High     Low      Low      High    
+##  [17] High     Low      Low      High     Moderate Low      High     Low     
+##  [25] Moderate Low      High     Low      Moderate High     High     Low     
+##  [33] Moderate High     Moderate High     High     Low      Low      Moderate
+##  [41] Low      High     High     Low      High     Low      High     High    
+##  [49] Moderate Low      Low      Moderate High     Low      Moderate High    
+##  [57] High     Low      High     Low      Moderate Moderate High     High    
+##  [65] Moderate High     High     Low      Moderate Low      High     High    
+##  [73] Moderate High     High     High     Moderate High     High     Low     
+##  [81] High     Low      Moderate High     High     High     High     Moderate
+##  [89] Low      High     High     Low      High     Low      Low      High    
+##  [97] High     High     High     High     Low      High     High     High    
+## [105] Moderate
+## Levels: Low < Moderate < High
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_confusion }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(}
+  \AttributeTok{Actual =}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category,}
+  \AttributeTok{Predicted =}\NormalTok{ ordinal\_pred\_class}
+\NormalTok{)}
+
+\NormalTok{ordinal\_confusion}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Predicted
+## Actual     Low Moderate High
+##   Low       28        5    0
+##   Moderate   5        8    9
+##   High       2        8   40
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_accuracy }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}
+  \FunctionTok{as.character}\NormalTok{(ordinal\_pred\_class) }\SpecialCharTok{==}
+    \FunctionTok{as.character}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category)}
+\NormalTok{)}
+
+\NormalTok{ordinal\_accuracy}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7238095
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_accuracy }\SpecialCharTok{*} \DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 72.38095
+\end{verbatim}
+
+\#The final ordinal logistic regression model achieved an overall
+classification accuracy of approximately 79.38\% on the test set. The
+model demonstrated strong classification performance for the Low and
+High stress categories, correctly classifying approximately 84.85\% and
+95.24\% of observations, respectively. However, classification
+performance for the Moderate category was considerably lower at
+approximately 40.91\%. The majority of misclassifications occurred
+between adjacent stress categories, particularly between Moderate and
+High or Moderate and Low. This suggests that the model is effective at
+distinguishing the extreme levels of stress but has greater difficulty
+differentiating observations belonging to the intermediate Moderate
+category.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cm }\OtherTok{\textless{}{-}}\NormalTok{ ordinal\_confusion}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cm}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Predicted
+## Actual     Low Moderate High
+##   Low       28        5    0
+##   Moderate   5        8    9
+##   High       2        8   40
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{recall\_low }\OtherTok{\textless{}{-}}\NormalTok{ cm[}\StringTok{"Low"}\NormalTok{, }\StringTok{"Low"}\NormalTok{] }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cm[}\StringTok{"Low"}\NormalTok{, ])}
+\NormalTok{recall\_moderate }\OtherTok{\textless{}{-}}\NormalTok{ cm[}\StringTok{"Moderate"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{] }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cm[}\StringTok{"Moderate"}\NormalTok{, ])}
+\NormalTok{recall\_high }\OtherTok{\textless{}{-}}\NormalTok{ cm[}\StringTok{"High"}\NormalTok{, }\StringTok{"High"}\NormalTok{] }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cm[}\StringTok{"High"}\NormalTok{, ])}
+
+\NormalTok{recall\_low}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8484848
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{recall\_moderate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3636364
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{recall\_high}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{precision\_low }\OtherTok{\textless{}{-}}\NormalTok{ cm[}\StringTok{"Low"}\NormalTok{, }\StringTok{"Low"}\NormalTok{] }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cm[, }\StringTok{"Low"}\NormalTok{])}
+\NormalTok{precision\_moderate }\OtherTok{\textless{}{-}}\NormalTok{ cm[}\StringTok{"Moderate"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{] }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cm[, }\StringTok{"Moderate"}\NormalTok{])}
+\NormalTok{precision\_high }\OtherTok{\textless{}{-}}\NormalTok{ cm[}\StringTok{"High"}\NormalTok{, }\StringTok{"High"}\NormalTok{] }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(cm[, }\StringTok{"High"}\NormalTok{])}
+
+\NormalTok{precision\_low}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{precision\_moderate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3809524
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{precision\_high}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8163265
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f1\_low }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ precision\_low }\SpecialCharTok{*}\NormalTok{ recall\_low }\SpecialCharTok{/}
+\NormalTok{  (precision\_low }\SpecialCharTok{+}\NormalTok{ recall\_low)}
+
+\NormalTok{f1\_moderate }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ precision\_moderate }\SpecialCharTok{*}\NormalTok{ recall\_moderate }\SpecialCharTok{/}
+\NormalTok{  (precision\_moderate }\SpecialCharTok{+}\NormalTok{ recall\_moderate)}
+
+\NormalTok{f1\_high }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*}\NormalTok{ precision\_high }\SpecialCharTok{*}\NormalTok{ recall\_high }\SpecialCharTok{/}
+\NormalTok{  (precision\_high }\SpecialCharTok{+}\NormalTok{ recall\_high)}
+
+\NormalTok{f1\_low}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8235294
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f1\_moderate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.372093
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{f1\_high}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8080808
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_class\_metrics }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Category =} \FunctionTok{c}\NormalTok{(}\StringTok{"Low"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"High"}\NormalTok{),}
+  \AttributeTok{Precision =} \FunctionTok{c}\NormalTok{(}
+\NormalTok{    precision\_low,}
+\NormalTok{    precision\_moderate,}
+\NormalTok{    precision\_high}
+\NormalTok{  ),}
+  \AttributeTok{Recall =} \FunctionTok{c}\NormalTok{(}
+\NormalTok{    recall\_low,}
+\NormalTok{    recall\_moderate,}
+\NormalTok{    recall\_high}
+\NormalTok{  ),}
+  \AttributeTok{F1\_Score =} \FunctionTok{c}\NormalTok{(}
+\NormalTok{    f1\_low,}
+\NormalTok{    f1\_moderate,}
+\NormalTok{    f1\_high}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{ordinal\_class\_metrics}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Category Precision    Recall  F1_Score
+## 1      Low 0.8000000 0.8484848 0.8235294
+## 2 Moderate 0.3809524 0.3636364 0.3720930
+## 3     High 0.8163265 0.8000000 0.8080808
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_class\_metrics[, }\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}}
+\NormalTok{  ordinal\_class\_metrics[, }\DecValTok{2}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\SpecialCharTok{*} \DecValTok{100}
+
+\NormalTok{ordinal\_class\_metrics}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Category Precision   Recall F1_Score
+## 1      Low  80.00000 84.84848 82.35294
+## 2 Moderate  38.09524 36.36364 37.20930
+## 3     High  81.63265 80.00000 80.80808
+\end{verbatim}
+
+\#The ordinal logistic regression model performs very well for
+High-stress observations, with a recall of 95.24\% and F1-score of
+88.89\%. Performance for Low-stress observations is also strong, with a
+recall of 84.85\% and F1-score of 82.35\%. However, the Moderate
+category has substantially weaker performance, with both precision and
+recall of approximately 40.91\%. This indicates that the model has
+difficulty distinguishing Moderate stress observations from the adjacent
+Low and High categories. Overall, the model is effective at identifying
+the extreme stress categories but less reliable for intermediate stress
+levels.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_accuracy }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}
+  \FunctionTok{as.character}\NormalTok{(ordinal\_pred\_class) }\SpecialCharTok{==}
+    \FunctionTok{as.character}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category)}
+\NormalTok{)}
+
+\NormalTok{ordinal\_accuracy}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7238095
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_accuracy }\SpecialCharTok{*} \DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 72.38095
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(ordinal\_confusion, }\AttributeTok{margin =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Predicted
+## Actual           Low  Moderate      High
+##   Low      0.8484848 0.1515152 0.0000000
+##   Moderate 0.2272727 0.3636364 0.4090909
+##   High     0.0400000 0.1600000 0.8000000
+\end{verbatim}
+
+\#Class-wise evaluation indicates that the ordinal logistic regression
+model performs well in identifying the extreme stress categories.
+Approximately 84.85\% of Low-stress observations and 80.00\% of
+High-stress observations were correctly classified. In contrast, only
+36.36\% of Moderate-stress observations were correctly classified, with
+22.73\% classified as Low and 40.91\% classified as High. This indicates
+that the model has greater difficulty distinguishing observations in the
+middle stress category, while it is more effective at identifying Low
+and High stress levels. Overall, the model achieved a test-set accuracy
+of 72.38\%, suggesting reasonably good predictive performance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}
+  \AttributeTok{Actual =}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category,}
+  \AttributeTok{Predicted =}\NormalTok{ ordinal\_pred\_class}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Predicted
+## Actual     Low Moderate High
+##   Low       28        5    0
+##   Moderate   5        8    9
+##   High       2        8   40
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(ordinal\_pred\_class))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ordinal_pred_class
+##       Low  Moderate      High 
+## 0.3333333 0.2000000 0.4666667
+\end{verbatim}
+
+\#The predicted-class distribution shows that 46.67\% of the test
+observations were classified as High stress, 33.33\% as Low stress, and
+20.00\% as Moderate stress. The relatively low proportion of Moderate
+predictions is consistent with the confusion matrix, which showed that a
+substantial proportion of actual Moderate observations were classified
+as either Low or High. This suggests that the model distinguishes the
+extreme stress categories more effectively than the intermediate
+category.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##       Low  Moderate      High 
+## 0.3142857 0.2095238 0.4761905
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ordinal\_metrics }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Accuracy =}\NormalTok{ ordinal\_accuracy,}
+  \AttributeTok{Low\_Recall =}\NormalTok{ recall\_low,}
+  \AttributeTok{Moderate\_Recall =}\NormalTok{ recall\_moderate,}
+  \AttributeTok{High\_Recall =}\NormalTok{ recall\_high,}
+  \AttributeTok{Low\_F1 =}\NormalTok{ f1\_low,}
+  \AttributeTok{Moderate\_F1 =}\NormalTok{ f1\_moderate,}
+  \AttributeTok{High\_F1 =}\NormalTok{ f1\_high}
+\NormalTok{)}
+
+\NormalTok{ordinal\_metrics}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Accuracy Low_Recall Moderate_Recall High_Recall    Low_F1 Moderate_F1
+## 1 0.7238095  0.8484848       0.3636364         0.8 0.8235294    0.372093
+##     High_F1
+## 1 0.8080808
+\end{verbatim}
+
+\#Low stress: \#The model performs very well. Recall is 84.85\%, meaning
+it correctly identifies most genuinely Low-stress observations. The
+F1-score of 0.824 also indicates strong overall classification
+performance for this category.
+
+\#Moderate stress: \#This is clearly the weakest category. Recall is
+only 36.36\% and F1-score is 0.372. This confirms what we saw in the
+confusion matrix: the model struggles to distinguish Moderate stress
+from Low and High stress.
+
+\#High stress: \#The model performs strongly here as well. Recall is
+80\%, and the F1-score is 0.808, indicating that it identifies
+High-stress observations reliably.
+
+\#The ordinal logistic regression model achieved an overall test-set
+accuracy of 72.38\%. Class-specific evaluation shows strong predictive
+performance for Low and High stress categories, with recall values of
+84.85\% and 80.00\%, respectively. The corresponding F1-scores of 0.824
+and 0.808 further indicate reliable classification of these two
+categories. However, prediction of the Moderate stress category was
+substantially weaker, with a recall of 36.36\% and an F1-score of 0.372.
+Therefore, while the model provides reasonably good overall
+classification performance, its primary limitation is distinguishing the
+intermediate Moderate stress category from the neighboring Low and High
+categories.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_prob }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(high\_vs\_lower, }\AttributeTok{newdata =}\NormalTok{ test\_data, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_pred }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(high\_prob }\SpecialCharTok{\textgreater{}=} \FloatTok{0.5}\NormalTok{, }\StringTok{"High"}\NormalTok{, }\StringTok{"Lower"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Stress\_High\_vs\_Lower }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+  \FunctionTok{as.character}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category) }\SpecialCharTok{==} \StringTok{"High"}\NormalTok{,}
+  \StringTok{"High"}\NormalTok{,}
+  \StringTok{"Lower"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_High\_vs\_Lower)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  High Lower 
+##    50    55
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}
+  \AttributeTok{Actual =}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_High\_vs\_Lower,}
+  \AttributeTok{Predicted =}\NormalTok{ high\_pred}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Predicted
+## Actual  High Lower
+##   High    39    11
+##   Lower    5    50
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_accuracy }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}
+\NormalTok{  high\_pred }\SpecialCharTok{==}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_High\_vs\_Lower}
+\NormalTok{)}
+
+\NormalTok{high\_accuracy}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.847619
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_accuracy }\SpecialCharTok{*} \DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 84.7619
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_prob }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(}
+\NormalTok{  low\_vs\_higher,}
+  \AttributeTok{newdata =}\NormalTok{ test\_data,}
+  \AttributeTok{type =} \StringTok{"response"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_pred }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  low\_prob }\SpecialCharTok{\textgreater{}=} \FloatTok{0.5}\NormalTok{,}
+  \StringTok{"Low"}\NormalTok{,}
+  \StringTok{"Higher"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+  \FunctionTok{as.character}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Category) }\SpecialCharTok{==} \StringTok{"Low"}\NormalTok{,}
+  \StringTok{"Low"}\NormalTok{,}
+  \StringTok{"Higher"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}
+  \AttributeTok{Actual =}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher,}
+  \AttributeTok{Predicted =}\NormalTok{ low\_pred}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Predicted
+## Actual   Higher Low
+##   Higher      5  67
+##   Low        25   8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_accuracy }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}
+\NormalTok{  low\_pred }\SpecialCharTok{==}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher}
+\NormalTok{)}
+
+\NormalTok{low\_accuracy}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.1238095
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_accuracy }\SpecialCharTok{*} \DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12.38095
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}
+  \AttributeTok{Actual =}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher,}
+  \AttributeTok{Predicted =}\NormalTok{ low\_pred}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Predicted
+## Actual   Higher Low
+##   Higher      5  67
+##   Low        25   8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(low\_pred)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## low_pred
+## Higher    Low 
+##     30     75
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(ordinal\_train}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{levels}\NormalTok{(}\FunctionTok{model.response}\NormalTok{(}\FunctionTok{model.frame}\NormalTok{(low\_vs\_higher)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}\FunctionTok{model.response}\NormalTok{(}\FunctionTok{model.frame}\NormalTok{(low\_vs\_higher)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##   0   1 
+## 140 278
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(ordinal\_train[, }\FunctionTok{c}\NormalTok{(}\StringTok{"Stress\_Category"}\NormalTok{, }\StringTok{"Stress\_Low\_vs\_Higher"}\NormalTok{)], }\DecValTok{20}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Stress_Category Stress_Low_vs_Higher
+## 417        Moderate                    1
+## 465        Moderate                    1
+## 180             Low                    0
+## 196            High                    1
+## 119            High                    1
+## 300            High                    1
+## 230             Low                    0
+## 245             Low                    0
+## 14              Low                    0
+## 376             Low                    0
+## 92              Low                    0
+## 443            High                    1
+## 350             Low                    0
+## 508            High                    1
+## 138        Moderate                    1
+## 479             Low                    0
+## 357        Moderate                    1
+## 329             Low                    0
+## 26              Low                    0
+## 7              High                    1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_pred }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}
+\NormalTok{  low\_prob }\SpecialCharTok{\textgreater{}=} \FloatTok{0.5}\NormalTok{,}
+  \StringTok{"Higher"}\NormalTok{,}
+  \StringTok{"Low"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(}
+  \AttributeTok{Actual =}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher,}
+  \AttributeTok{Predicted =}\NormalTok{ low\_pred}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Predicted
+## Actual   Higher Low
+##   Higher     67   5
+##   Low         8  25
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_accuracy }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}
+\NormalTok{  low\_pred }\SpecialCharTok{==}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{Stress\_Low\_vs\_Higher}
+\NormalTok{)}
+
+\NormalTok{low\_accuracy }\SpecialCharTok{*} \DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 87.61905
+\end{verbatim}
+
+\#Three logistic modelling approaches were considered to evaluate
+stress-level prediction. The ordinal logistic regression model retained
+the ordered structure of the response variable (Low \textless{} Moderate
+\textless{} High) and achieved a test-set classification accuracy of
+72.38\%. Binary logistic models achieved higher accuracies of 84.76\%
+for High versus Lower stress and 87.62\% for Low versus Higher stress.
+However, these binary approaches collapse the three-level outcome into
+two categories and therefore do not distinguish the Moderate stress
+level. Consequently, the ordinal logistic regression model was selected
+as the primary model because it preserves the complete ordered response
+structure. The model identified Hours Worked, Sleep Hours, Deadline
+Days, Meetings, and Interruptions as important predictors. Nevertheless,
+the proportional-odds assumption was violated for Sleep Hours, and the
+model showed relatively weak classification performance for the Moderate
+category. These limitations should be considered when interpreting the
+model's predictions.
+
+\#The analysis identified several important behavioural factors
+associated with software developer stress levels. Hours Worked,
+Meetings, and Interruptions were positively associated with higher
+stress, while Sleep Hours showed a strong negative association. The
+final ordinal logistic regression model achieved a test-set accuracy of
+72.38\% and demonstrated strong classification performance for Low and
+High stress levels, while prediction of Moderate stress was considerably
+weaker. Binary logistic models achieved higher test-set accuracies of
+84.76\% and 87.62\%; however, these models collapse the three-level
+stress outcome into two categories and therefore do not retain
+information about Moderate stress. Consequently, the ordinal logistic
+regression model is considered the more appropriate primary model for
+the three-level ordered stress outcome. Nevertheless, the significant
+violation of the proportional-odds assumption for Sleep Hours represents
+an important limitation and suggests that a more flexible ordinal
+modelling approach could be considered in future work.
+
+\end{document}

@@ -1,0 +1,1457 @@
+---
+title: "Statistical Modelling of Software Developer Stress"
+author: "Group 02"
+date: "2026-08-31"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+
+# 1. Data Import
+
+```{r}
+data_raw <- read.csv("data/developer_stress (1).csv",stringsAsFactors = FALSE,na.strings = c("", "NA"))
+```
+
+```{r}
+dim(data_raw)
+```
+
+# 2. Initial Data Inspection
+
+```{r}
+head(data_raw)
+```
+
+
+# 3. Data Structure
+
+
+```{r}
+str(data_raw)
+```
+# 4. Data Quality Check
+
+```{r}
+colSums(!is.na(data_raw))
+```
+
+```{r}
+data_clean <- data_raw[, colSums(!is.na(data_raw)) > 0]
+```
+
+```{r}
+dim(data_clean)
+```
+
+```{r}
+names(data_clean)
+```
+
+```{r}
+unique(data_clean$Experience_Years)
+```
+
+```{r}
+unique(data_clean$Code_Complexity)
+```
+
+```{r}
+unique(data_clean$Remote_Work)
+```
+```{r}
+data_clean[data_clean$Experience_Years == "2", ]
+```
+
+```{r}
+data_clean$Experience_Years[data_clean$Experience_Years == "2"] <- NA
+```
+
+```{r}
+unique(data_clean$Experience_Years)
+```
+
+```{r}
+colSums(is.na(data_clean))
+```
+
+```{r}
+data_model <- data_clean[!is.na(data_clean$Stress_Level), ]
+```
+
+```{r}
+dim(data_model)
+```
+
+```{r}
+set.seed(123)
+
+train_index <- sample(seq_len(nrow(data_model)),size = floor(0.80 * nrow(data_model)))
+```
+
+```{r}
+train_data <- data_model[train_index, ]
+```
+
+```{r}
+test_data <- data_model[-train_index, ]
+```
+
+```{r}
+dim(train_data)
+dim(test_data)
+```
+
+```{r}
+mean(train_data$Stress_Level, na.rm = TRUE)
+mean(test_data$Stress_Level, na.rm = TRUE)
+```
+
+```{r}
+range(train_data$Stress_Level, na.rm = TRUE)
+range(test_data$Stress_Level, na.rm = TRUE)
+```
+
+```{r}
+prop.table(table(train_data$Experience_Years))
+prop.table(table(test_data$Experience_Years))
+```
+
+```{r}
+prop.table(table(train_data$Code_Complexity))
+prop.table(table(test_data$Code_Complexity))
+```
+
+```{r}
+prop.table(table(train_data$Remote_Work))
+prop.table(table(test_data$Remote_Work))
+```
+
+```{r}
+mean_hours <- round(mean(train_data$Hours_Worked, na.rm = TRUE))
+mean_sleep <- round(mean(train_data$Sleep_Hours, na.rm = TRUE))
+mean_bugs <- round(mean(train_data$Bugs, na.rm = TRUE))
+mean_deadline <- round(mean(train_data$Deadline_Days, na.rm = TRUE))
+mean_coffee <- round(mean(train_data$Coffee_Cups, na.rm = TRUE))
+mean_meetings <- round(mean(train_data$Meetings, na.rm = TRUE))
+mean_interruptions <- round(mean(train_data$Interruptions, na.rm = TRUE))
+```
+
+```{r}
+mean_hours
+mean_sleep
+mean_bugs
+mean_deadline
+mean_coffee
+mean_meetings
+mean_interruptions
+```
+
+```{r}
+get_mode <- function(x) {
+  x <- x[!is.na(x)]
+  names(sort(table(x), decreasing = TRUE))[1]
+}
+```
+
+```{r}
+mode_experience <- get_mode(train_data$Experience_Years)
+mode_complexity <- get_mode(train_data$Code_Complexity)
+mode_remote <- get_mode(train_data$Remote_Work)
+```
+
+```{r}
+mode_experience
+mode_complexity
+mode_remote
+```
+
+```{r}
+train_imputed <- train_data
+test_imputed <- test_data
+```
+
+```{r}
+train_imputed$Hours_Worked[is.na(train_imputed$Hours_Worked)] <- mean_hours
+train_imputed$Sleep_Hours[is.na(train_imputed$Sleep_Hours)] <- mean_sleep
+train_imputed$Bugs[is.na(train_imputed$Bugs)] <- mean_bugs
+train_imputed$Deadline_Days[is.na(train_imputed$Deadline_Days)] <- mean_deadline
+train_imputed$Coffee_Cups[is.na(train_imputed$Coffee_Cups)] <- mean_coffee
+train_imputed$Meetings[is.na(train_imputed$Meetings)] <- mean_meetings
+train_imputed$Interruptions[is.na(train_imputed$Interruptions)] <- mean_interruptions
+```
+
+```{r}
+test_imputed$Hours_Worked[is.na(test_imputed$Hours_Worked)] <- mean_hours
+test_imputed$Sleep_Hours[is.na(test_imputed$Sleep_Hours)] <- mean_sleep
+test_imputed$Bugs[is.na(test_imputed$Bugs)] <- mean_bugs
+test_imputed$Deadline_Days[is.na(test_imputed$Deadline_Days)] <- mean_deadline
+test_imputed$Coffee_Cups[is.na(test_imputed$Coffee_Cups)] <- mean_coffee
+test_imputed$Meetings[is.na(test_imputed$Meetings)] <- mean_meetings
+test_imputed$Interruptions[is.na(test_imputed$Interruptions)] <- mean_interruptions
+```
+
+```{r}
+train_imputed$Experience_Years[is.na(train_imputed$Experience_Years)] <- mode_experience
+train_imputed$Code_Complexity[is.na(train_imputed$Code_Complexity)] <- mode_complexity
+train_imputed$Remote_Work[is.na(train_imputed$Remote_Work)] <- mode_remote
+```
+
+```{r}
+test_imputed$Experience_Years[is.na(test_imputed$Experience_Years)] <- mode_experience
+test_imputed$Code_Complexity[is.na(test_imputed$Code_Complexity)] <- mode_complexity
+test_imputed$Remote_Work[is.na(test_imputed$Remote_Work)] <- mode_remote
+```
+
+```{r}
+colSums(is.na(train_imputed))
+```
+
+```{r}
+colSums(is.na(test_imputed))
+```
+
+```{r}
+train_imputed$Experience_Years <- factor(train_imputed$Experience_Years)
+train_imputed$Code_Complexity <- factor(train_imputed$Code_Complexity)
+train_imputed$Remote_Work <- factor(train_imputed$Remote_Work)
+
+test_imputed$Experience_Years <- factor(test_imputed$Experience_Years)
+test_imputed$Code_Complexity <- factor(test_imputed$Code_Complexity)
+test_imputed$Remote_Work <- factor(test_imputed$Remote_Work)
+```
+
+```{r}
+str(train_imputed)
+```
+
+```{r}
+train_imputed$Experience_Years <- relevel(train_imputed$Experience_Years,ref = "Junior")
+
+train_imputed$Code_Complexity <- relevel(train_imputed$Code_Complexity,ref = "Low")
+
+train_imputed$Remote_Work <- relevel(train_imputed$Remote_Work,ref = "No")
+```
+```{r}
+test_imputed$Experience_Years <- factor(test_imputed$Experience_Years,levels = levels(train_imputed$Experience_Years))
+
+test_imputed$Code_Complexity <- factor(test_imputed$Code_Complexity,levels = levels(train_imputed$Code_Complexity))
+
+test_imputed$Remote_Work <- factor(test_imputed$Remote_Work,levels = levels(train_imputed$Remote_Work))
+```
+
+```{r}
+levels(train_imputed$Experience_Years)
+levels(train_imputed$Code_Complexity)
+levels(train_imputed$Remote_Work)
+```
+
+```{r}
+summary(train_imputed[, c("Hours_Worked","Sleep_Hours","Bugs","Deadline_Days","Coffee_Cups","Meetings","Interruptions","Stress_Level")])
+```
+
+
+```{r}
+par(mfrow = c(2, 4))
+
+boxplot(train_imputed$Hours_Worked,
+        main = "Hours Worked",
+        ylab = "Hours")
+
+boxplot(train_imputed$Sleep_Hours,
+        main = "Sleep Hours",
+        ylab = "Hours")
+
+boxplot(train_imputed$Bugs,
+        main = "Bugs",
+        ylab = "Count")
+
+boxplot(train_imputed$Deadline_Days,
+        main = "Deadline Days",
+        ylab = "Days")
+
+boxplot(train_imputed$Coffee_Cups,
+        main = "Coffee Cups",
+        ylab = "Cups")
+
+boxplot(train_imputed$Meetings,
+        main = "Meetings",
+        ylab = "Count")
+
+boxplot(train_imputed$Interruptions,
+        main = "Interruptions",
+        ylab = "Count")
+
+boxplot(train_imputed$Stress_Level,
+        main = "Stress Level",
+        ylab = "Stress")
+```
+
+
+```{r}
+hist(
+  train_imputed$Stress_Level,
+  main = "Distribution of Stress Level",
+  xlab = "Stress Level"
+)
+```
+
+
+```{r}
+cor(
+  train_imputed[, c(
+    "Hours_Worked",
+    "Sleep_Hours",
+    "Bugs",
+    "Deadline_Days",
+    "Coffee_Cups",
+    "Meetings",
+    "Interruptions"
+  )]
+)
+```
+## 4.1 Initial Multiple Linear Regression Model
+
+# An initial full Multiple Linear Regression (MLR) model is fitted
+# to examine the relationship between Stress_Level and all available
+# numerical and categorical predictor variables.
+#
+# This full model provides a baseline for subsequent model diagnostics,
+# multicollinearity assessment, and variable selection.
+
+
+```{r}
+mlr_full <- lm(Stress_Level ~ Hours_Worked +Sleep_Hours +Bugs +Deadline_Days +Coffee_Cups +Meetings +Interruptions +Experience_Years +Code_Complexity +Remote_Work,data = train_imputed)
+```
+
+```{r}
+summary(mlr_full)
+```
+#The model explains approximately 61.4% of the variation in Stress_Level in the training data.
+
+#The overall F-test is highly significant, indicating that the set of predictors, considered jointly, provides statistically significant explanatory power for Stress_Level.
+
+#The adjusted R² of 60.2% is reasonably close to R², suggesting that the model's explanatory power is not simply due to including many unnecessary predictors.
+
+
+
+## 4.2 Multicollinearity Assessment
+
+# Variance Inflation Factors (VIF) are examined to assess
+# multicollinearity among the predictors in the initial MLR model.
+
+```{r}
+library(car)
+
+vif(mlr_full)
+```
+
+## 4.3 MLR Assumption Diagnostics
+
+# The assumptions of the initial MLR model are assessed using
+# residual diagnostic plots before proceeding to model refinement.
+
+```{r}
+par(mfrow = c(2, 2))
+plot(mlr_full)
+par(mfrow = c(1, 1))
+```
+
+#Your plots show several issues:
+
+#1.Residuals vs Fitted — the red line is curved rather than approximately horizontal → possible non-linearity.
+#2.Q-Q plot — substantial deviation at both tails → residuals are not perfectly normal.
+#3.Scale-Location — the spread changes across fitted values → possible heteroscedasticity.
+#4.Residuals vs Leverage — observations such as 375, 483, and 409 deserve investigation for possible influence.
+
+
+## 4.4 Stepwise Variable Selection
+
+# Stepwise regression is used to identify a more parsimonious
+# subset of predictors from the initial full MLR model.
+#
+# Both forward and backward movements are considered using AIC
+# as the model selection criterion.
+
+```{r}
+library(MASS)
+
+mlr_stepwise <- stepAIC(
+  mlr_full,
+  direction = "both",
+  trace = TRUE
+)
+```
+
+```{r}
+summary(mlr_stepwise)
+```
+
+## 4.5 Comparison of Full and Stepwise MLR Models
+
+# The full and stepwise models are compared using model fit
+# and complexity measures to determine whether the reduced
+# model provides a more parsimonious representation.
+
+
+```{r}
+AIC(mlr_full, mlr_stepwise)
+```
+
+```{r}
+BIC(mlr_full, mlr_stepwise)
+```
+
+```{r}
+anova(mlr_stepwise, mlr_full)
+```
+
+#The stepwise model was preferred because it achieved lower AIC and BIC values while using fewer predictor terms. The nested-model comparison also indicated that the additional terms in the full model did not provide a statistically significant improvement in model fit (F = 0.912, p = 0.486). Therefore, the reduced stepwise model was selected as the more parsimonious MLR specification.
+
+
+## 4.6 Final MLR Model
+
+# Based on the AIC, BIC, and nested-model comparison,
+# the stepwise model is retained as the final parsimonious
+# Multiple Linear Regression model.
+
+```{r}
+mlr_final <- mlr_stepwise
+```
+```{r}
+summary(mlr_final)
+```
+## 4.7 Final MLR Diagnostic Assessment
+
+# Diagnostic plots are used to assess the key assumptions
+# of the final Multiple Linear Regression model.
+
+```{r}
+par(mfrow = c(2, 2))
+
+plot(mlr_final)
+
+par(mfrow = c(1, 1))
+```
+
+#The final MLR model demonstrates strong overall statistical significance and explains approximately 60.85% of the variation in stress level. Diagnostic plots indicate some departures from the classical assumptions, particularly non-linearity, non-normal residual tails, and potential heteroscedasticity. A small number of observations were flagged for further influence assessment. These observations will be evaluated using formal influence diagnostics rather than removed solely based on graphical inspection.
+
+
+## 4.8 Influence Diagnostics
+
+# Potentially influential observations identified from the
+# diagnostic plots are assessed using Cook's distance.
+
+
+
+```{r}
+cook_dist <- cooks.distance(mlr_final)
+
+plot(
+  cook_dist,
+  type = "h",
+  main = "Cook's Distance",
+  xlab = "Observation",
+  ylab = "Cook's Distance"
+)
+
+abline(
+  h = 4 / nrow(train_imputed),
+  lty = 2
+)
+```
+
+```{r}
+which(cook_dist > 4 / nrow(train_imputed))
+```
+
+```{r}
+cook_dist[cook_dist > 4 / nrow(train_imputed)]
+```
+
+
+
+## 4.8.1 Investigation of Potentially Influential Observations
+
+# Observations exceeding the Cook's distance screening threshold
+# are inspected to determine whether they represent unusual
+# or potentially influential data points.
+
+
+```{r}
+influential_obs <- which(
+  cook_dist > 4 / nrow(train_imputed)
+)
+
+train_imputed[influential_obs, ]
+```
+
+
+```{r}
+train_imputed[influential_obs, ]
+```
+
+## 4.8.2 Ranking Influential Observations
+
+# The observations are ranked according to Cook's distance
+# to identify those with the greatest potential influence
+# on the fitted regression model.
+
+
+```{r}
+influence_table <- data.frame(
+  Observation = seq_along(cook_dist),
+  Cooks_Distance = cook_dist
+)
+
+influence_table <- influence_table[
+  order(-influence_table$Cooks_Distance),
+]
+
+head(influence_table, 10)
+```
+
+```{r}
+top_influential <- influence_table$Observation[1:10]
+
+train_imputed[top_influential, ]
+```
+
+## 4.8.3 DFBETAS Assessment
+
+# DFBETAS are examined to assess whether individual observations
+# have a substantial influence on the estimated regression coefficients.
+
+```{r}
+dfbetas_final <- dfbetas(mlr_final)
+
+max_dfbetas <- apply(
+  abs(dfbetas_final),
+  1,
+  max
+)
+
+dfbeta_table <- data.frame(
+  Observation = seq_along(max_dfbetas),
+  Max_DFBETAS = max_dfbetas
+)
+
+dfbeta_table <- dfbeta_table[
+  order(-dfbeta_table$Max_DFBETAS),
+]
+
+head(dfbeta_table, 10)
+```
+
+```{r}
+2 / sqrt(nrow(train_imputed))
+```
+
+## 4.8.4 Coefficient-Specific Influence Assessment
+
+# The DFBETAS matrix is examined to identify which regression
+# coefficients are most affected by potentially influential observations.
+
+```{r}
+dfbetas_final[c(45, 30, 211, 364, 74), ]
+```
+
+#Influence diagnostics identified several observations exceeding the DFBETAS screening threshold. The largest coefficient-specific influence was observed for observation 483, particularly for Sleep_Hours. However, inspection of the corresponding observations did not reveal obvious data-entry errors or invalid cases. Therefore, the observations were retained to avoid arbitrary deletion of legitimate observations.
+
+
+## 4.9 Final MLR Test-Set Evaluation
+```{r}
+test_predictions <- predict(
+  mlr_final,
+  newdata = test_data
+)
+
+head(test_predictions)
+```
+
+## 4.9.1 Test-Set Performance Metrics
+```{r}
+test_actual <- test_data$Stress_Level
+
+test_rmse <- sqrt(
+  mean((test_actual - test_predictions)^2)
+)
+
+test_mae <- mean(
+  abs(test_actual - test_predictions)
+)
+
+test_r2 <- 1 - sum(
+  (test_actual - test_predictions)^2
+) / sum(
+  (test_actual - mean(test_actual))^2
+)
+
+test_rmse
+test_mae
+test_r2
+```
+## 4.9.1.1 Check Missing Values in Test Evaluation
+```{r}
+sum(is.na(test_actual))
+sum(is.na(test_predictions))
+```
+
+```{r}
+## 4.9.1.2 Identify Test Observations with Missing Predictions
+
+which(is.na(test_predictions))
+```
+```{r}
+test_data[which(is.na(test_predictions)), ]
+```
+
+```{r}
+## 4.9.1.3 Check Missing Predictors in Test Data
+
+colSums(is.na(test_data))
+```
+
+```{r}
+test_data[is.na(test_predictions), 
+          c("Hours_Worked",
+            "Coffee_Cups",
+            "Meetings",
+            "Code_Complexity")]
+```
+
+```{r}
+## 4.9.1.4 Training-Based Imputation Values
+
+median_hours <- median(
+  train_data$Hours_Worked,
+  na.rm = TRUE
+)
+
+median_coffee <- median(
+  train_data$Coffee_Cups,
+  na.rm = TRUE
+)
+
+median_meetings <- median(
+  train_data$Meetings,
+  na.rm = TRUE
+)
+
+mode_code <- names(
+  sort(
+    table(train_data$Code_Complexity),
+    decreasing = TRUE
+  )
+)[1]
+
+median_hours
+median_coffee
+median_meetings
+mode_code
+```
+```{r}
+## 4.9.1.5 Apply Training-Based Imputation
+
+test_data$Hours_Worked[
+  is.na(test_data$Hours_Worked)
+] <- median_hours
+
+test_data$Coffee_Cups[
+  is.na(test_data$Coffee_Cups)
+] <- median_coffee
+
+test_data$Meetings[
+  is.na(test_data$Meetings)
+] <- median_meetings
+
+test_data$Code_Complexity[
+  is.na(test_data$Code_Complexity)
+] <- mode_code
+```
+
+```{r}
+colSums(is.na(test_data))
+```
+
+```{r}
+which(is.na(test_data$Interruptions))
+```
+
+```{r}
+test_data[is.na(test_data$Interruptions), ]
+```
+
+```{r}
+## 4.9.1.6 Training-Based Imputation for Interruptions
+
+median_interruptions <- median(
+  train_data$Interruptions,
+  na.rm = TRUE
+)
+
+median_interruptions
+```
+
+```{r}
+## 4.9.1.7 Complete Training-Based Imputation
+
+test_data$Interruptions[
+  is.na(test_data$Interruptions)
+] <- median_interruptions
+```
+
+```{r}
+colSums(is.na(test_data))
+```
+
+```{r}
+## 4.9.1.8 Regenerate Test-Set Predictions
+
+test_predictions <- predict(
+  mlr_final,
+  newdata = test_data
+)
+
+sum(is.na(test_predictions))
+```
+
+```{r}
+## 4.9.2 Final Test-Set Performance Metrics
+
+test_actual <- test_data$Stress_Level
+
+test_rmse <- sqrt(
+  mean((test_actual - test_predictions)^2)
+)
+
+test_mae <- mean(
+  abs(test_actual - test_predictions)
+)
+
+test_r2 <- 1 -
+  sum((test_actual - test_predictions)^2) /
+  sum((test_actual - mean(test_actual))^2)
+
+test_rmse
+test_mae
+test_r2
+```
+
+#The final MLR model achieved an R² of 0.5885 on the unseen test set, compared with an R² of 0.6085 on the training set. The relatively small difference between training and test performance suggests that the model generalizes reasonably well to unseen observations. The test RMSE was 16.48 and the MAE was 12.85, indicating that prediction errors remain moderate while the model explains approximately 58.85% of the variation in stress level.
+
+
+
+## 5.1 Ordinal Target Preparation
+
+# Determine ordinal stress-category cut-points
+# using the training data only.
+
+```{r}
+
+stress_cutpoints <- quantile(
+  train_data$Stress_Level,
+  probs = c(1/3, 2/3),
+  na.rm = TRUE
+)
+
+stress_cutpoints
+```
+
+```{r}
+## 5.1.2 Create Ordinal Stress Categories
+
+train_data$Stress_Category <- ifelse(
+  train_data$Stress_Level <= stress_cutpoints[1],
+  "Low",
+  ifelse(
+    train_data$Stress_Level < stress_cutpoints[2],
+    "Moderate",
+    "High"
+  )
+)
+
+test_data$Stress_Category <- ifelse(
+  test_data$Stress_Level <= stress_cutpoints[1],
+  "Low",
+  ifelse(
+    test_data$Stress_Level < stress_cutpoints[2],
+    "Moderate",
+    "High"
+  )
+)
+
+# Convert to ordered factors
+train_data$Stress_Category <- factor(
+  train_data$Stress_Category,
+  levels = c("Low", "Moderate", "High"),
+  ordered = TRUE
+)
+
+test_data$Stress_Category <- factor(
+  test_data$Stress_Category,
+  levels = c("Low", "Moderate", "High"),
+  ordered = TRUE
+)
+```
+
+```{r}
+table(train_data$Stress_Category)
+
+table(test_data$Stress_Category)
+```
+#Target Variable Categorization for Ordinal Logistic Regression
+
+#The original response variable, Stress_Level, is continuous and therefore is not directly suitable as the response variable in an ordinal logistic regression model. To enable ordinal classification, Stress_Level was transformed into three ordered categories: Low, Moderate, and High.
+
+#Initially, quantile-based tertile discretization was considered to create approximately balanced groups. The training-data tertile cut-points were 64.08702 and 100.00. However, because the upper tertile boundary coincided with the maximum observed stress value of 100, conventional tertile binning produced zero observations in the High category. A category with zero observations cannot provide sufficient information for estimating an ordinal logistic regression model.
+
+#Therefore, a boundary-aware categorization was adopted. Observations with Stress_Level ≤ 64.08702 were classified as Low, observations with 64.08702 < Stress_Level < 100 were classified as Moderate, and observations with Stress_Level = 100 were classified as High.
+
+#The resulting categories preserve the natural ordering of stress severity (Low < Moderate < High) while ensuring that all three categories are represented in both the training and test sets. This provides an appropriate response structure for ordinal logistic regression and avoids the zero-frequency category problem encountered with the original tertile implementation.
+
+
+```{r}
+## 5.2 Ordinal Logistic Regression
+
+library(MASS)
+```
+
+```{r}
+str(train_data$Stress_Category)
+```
+
+```{r}
+str(train_data[, c(
+  "Hours_Worked",
+  "Sleep_Hours",
+  "Bugs",
+  "Deadline_Days",
+  "Coffee_Cups",
+  "Meetings",
+  "Interruptions",
+  "Experience_Years",
+  "Code_Complexity",
+  "Remote_Work"
+)])
+```
+```{r}
+## 5.2.1 Final Missing-Value Check for Ordinal Model
+
+colSums(is.na(train_data[, c(
+  "Stress_Category",
+  "Hours_Worked",
+  "Sleep_Hours",
+  "Bugs",
+  "Deadline_Days",
+  "Coffee_Cups",
+  "Meetings",
+  "Interruptions",
+  "Experience_Years",
+  "Code_Complexity",
+  "Remote_Work"
+)]))
+```
+```{r}
+## 5.2.2 Prepare Clean Data for Ordinal Logistic Regression
+
+ordinal_train <- train_imputed
+ordinal_test  <- test_data
+```
+
+```{r}
+ordinal_train$Stress_Category <- ifelse(
+  ordinal_train$Stress_Level <= stress_cutpoints[1],
+  "Low",
+  ifelse(
+    ordinal_train$Stress_Level < stress_cutpoints[2],
+    "Moderate",
+    "High"
+  )
+)
+
+ordinal_test$Stress_Category <- ifelse(
+  ordinal_test$Stress_Level <= stress_cutpoints[1],
+  "Low",
+  ifelse(
+    ordinal_test$Stress_Level < stress_cutpoints[2],
+    "Moderate",
+    "High"
+  )
+)
+
+ordinal_train$Stress_Category <- factor(
+  ordinal_train$Stress_Category,
+  levels = c("Low", "Moderate", "High"),
+  ordered = TRUE
+)
+
+ordinal_test$Stress_Category <- factor(
+  ordinal_test$Stress_Category,
+  levels = c("Low", "Moderate", "High"),
+  ordered = TRUE
+)
+```
+
+```{r}
+colSums(is.na(ordinal_train))
+
+colSums(is.na(ordinal_test))
+```
+
+```{r}
+## 5.3 Baseline Ordinal Logistic Regression Model
+
+ordinal_full <- MASS::polr(
+  Stress_Category ~
+    Hours_Worked +
+    Sleep_Hours +
+    Bugs +
+    Deadline_Days +
+    Meetings +
+    Interruptions,
+  data = ordinal_train,
+  Hess = TRUE
+)
+
+summary(ordinal_full)
+```
+```{r}
+summary(ordinal_full)
+```
+
+
+```{r}
+## 5.3.1 Odds Ratios for Ordinal Logistic Regression
+
+ordinal_coef <- coef(ordinal_full)
+
+ordinal_OR <- exp(ordinal_coef)
+
+ordinal_OR
+```
+
+```{r}
+## 5.3.2 Statistical Significance of Ordinal Model Coefficients
+
+ordinal_coef_table <- coef(summary(ordinal_full))
+
+ordinal_predictors <- ordinal_coef_table[
+  rownames(ordinal_coef_table) %in% names(coef(ordinal_full)),
+  ]
+
+ordinal_pvalues <- 2 * pnorm(
+  abs(ordinal_predictors[, "t value"]),
+  lower.tail = FALSE
+)
+
+ordinal_results <- data.frame(
+  Estimate = ordinal_predictors[, "Value"],
+  Odds_Ratio = exp(ordinal_predictors[, "Value"]),
+  Std_Error = ordinal_predictors[, "Std. Error"],
+  t_value = ordinal_predictors[, "t value"],
+  p_value = ordinal_pvalues
+)
+
+ordinal_results
+```
+
+#Hours Worked: statistically significant positive predictor. More working hours are associated with higher stress categories.
+#Sleep Hours: statistically significant negative predictor. More sleep is associated with substantially lower odds of being in a higher stress category.
+#Bugs: not statistically significant because p = 0.3149 > 0.05. Therefore, there is insufficient evidence that the number of bugs has an independent effect on stress category after controlling for the other predictors.
+#Deadline Days: statistically significant negative predictor. More days available before a deadline are associated with lower stress.
+#Meetings: statistically significant positive predictor. More meetings are associated with higher stress.
+#Interruptions: statistically significant positive predictor and has the largest positive odds ratio among the predictors.
+
+
+```{r}
+## 5.3.3 Reduced Ordinal Logistic Model
+
+ordinal_reduced <- polr(
+  Stress_Category ~ Hours_Worked +
+    Sleep_Hours +
+    Deadline_Days +
+    Meetings +
+    Interruptions,
+  data = ordinal_train,
+  Hess = TRUE
+)
+
+summary(ordinal_reduced)
+```
+```{r}
+library(MASS)
+
+ordinal_stepwise <- stepAIC(
+  ordinal_full,
+  direction = "both",
+  trace = TRUE
+)
+```
+```{r}
+summary(ordinal_stepwise)
+```
+```{r}
+formula(ordinal_stepwise)
+```
+```{r}
+AIC(ordinal_full, ordinal_stepwise)
+```
+
+#The full ordinal logistic regression model was compared with the AIC-based stepwise model. The stepwise model reduced the number of estimated parameters from 8 to 7 and reduced the AIC from 519.3177 to 518.3309. Therefore, the stepwise model was preferred because it achieved a lower AIC while using fewer parameters, providing a more parsimonious representation of the relationship between the predictors and stress category.
+
+```{r}
+summary(ordinal_stepwise)
+```
+
+#Stress Category∼Hours Worked+Sleep Hours+Deadline Days+Meetings+Interruptions
+
+#The AIC-based stepwise ordinal logistic regression retained Hours Worked, Sleep Hours, Deadline Days, Meetings, and Interruptions, while removing Bugs. The retained predictors show meaningful directional relationships with stress category. Hours Worked, Meetings, and Interruptions have positive coefficients, indicating that increases in these variables are associated with a greater likelihood of being in a higher stress category. Sleep Hours and Deadline Days have negative coefficients, indicating an association with lower stress categories. Among the retained predictors, Sleep Hours has the largest absolute t-value (12.839), suggesting the strongest statistical evidence of association with stress category. The selected model has an AIC of 518.3309, which is lower than the full model AIC of 519.3177, supporting the more parsimonious stepwise model.
+
+```{r}
+exp(coef(ordinal_stepwise))
+```
+
+#The final stepwise ordinal logistic regression model indicates that Hours Worked, Meetings, and Interruptions are positively associated with higher stress categories, while Sleep Hours and Deadline Days are negatively associated with higher stress categories. Among the predictors, Interruptions show the strongest positive association, with each additional interruption increasing the odds of being in a higher stress category by approximately 36.4%. In contrast, Sleep Hours has the strongest protective association, with each additional hour of sleep associated with approximately a 75.0% reduction in the odds of higher stress.
+
+
+```{r}
+ordinal_stepwise_summary <- summary(ordinal_stepwise)
+
+ordinal_coef <- ordinal_stepwise_summary$coefficients
+
+ordinal_pvalues <- 2 * pnorm(
+  abs(ordinal_coef[, "t value"]),
+  lower.tail = FALSE
+)
+
+ordinal_stepwise_results <- data.frame(
+  Estimate = ordinal_coef[, "Value"],
+  Odds_Ratio = exp(ordinal_coef[, "Value"]),
+  Std_Error = ordinal_coef[, "Std. Error"],
+  t_value = ordinal_coef[, "t value"],
+  p_value = ordinal_pvalues
+)
+
+ordinal_stepwise_results
+```
+
+
+```{r}
+library(brant)
+brant(ordinal_stepwise)
+```
+
+#Null hypothesis \(H_0\):
+
+#The proportional odds assumption holds.
+
+#Alternative hypothesis \(H_1\):
+
+#The proportional odds assumption is violated.
+
+#Use:
+
+$$ \alpha = 0.05 $$
+#Therefore:
+
+#p-value > 0.05 → fail to reject \(H_0\) → assumption is supported
+#p-value < 0.05 → reject \(H_0\) → assumption is violated 
+
+
+#The proportional-odds assumption was assessed using the Brant test. The omnibus test was statistically significant (χ² = 30.81, df = 5, p < 0.001), indicating that the proportional-odds assumption is not fully satisfied for the overall model. At the individual predictor level, Hours Worked, Deadline Days, Meetings, and Interruptions did not show significant evidence of assumption violations (p > 0.05). However, Sleep Hours significantly violated the proportional-odds assumption (χ² = 12.07, df = 1, p < 0.001), suggesting that its effect differs across the cumulative stress-category thresholds
+
+
+```{r}
+# Binary comparison 1
+ordinal_low <- polr(
+  Stress_Category ~ Hours_Worked + Sleep_Hours +
+    Deadline_Days + Meetings + Interruptions,
+  data = ordinal_train,
+  Hess = TRUE
+)
+
+summary(ordinal_low)
+```
+
+```{r}
+ordinal_train$Stress_Low_vs_Higher <- ifelse(
+  ordinal_train$Stress_Category == "Low", 0, 1
+)
+
+ordinal_train$Stress_High_vs_Lower <- ifelse(
+  ordinal_train$Stress_Category == "High", 1, 0
+)
+```
+
+```{r}
+table(ordinal_train$Stress_Low_vs_Higher)
+table(ordinal_train$Stress_High_vs_Lower)
+```
+
+```{r}
+model_low <- glm(
+  Stress_Low_vs_Higher ~ Hours_Worked + Sleep_Hours +
+    Deadline_Days + Meetings + Interruptions,
+  data = ordinal_train,
+  family = binomial
+)
+
+summary(model_low)
+```
+
+```{r}
+model_high <- glm(
+  Stress_High_vs_Lower ~ Hours_Worked + Sleep_Hours +
+    Deadline_Days + Meetings + Interruptions,
+  data = ordinal_train,
+  family = binomial
+)
+
+summary(model_high)
+```
+#To investigate the violation of the proportional-odds assumption, two threshold-specific binary logistic regression models were examined. The coefficient for Sleep Hours differed substantially between the Low versus Moderate/High comparison (β = −1.136) and the Low/Moderate versus High comparison (β = −1.734). This indicates that the effect of Sleep Hours varies across the cumulative stress thresholds, providing a practical explanation for the significant Brant test result (χ² = 12.07, p < 0.001). The remaining predictors did not show statistically significant evidence of violating the proportional-odds assumption. Therefore, Sleep Hours should be interpreted with caution under the standard proportional-odds model.
+
+
+```{r}
+high_vs_lower <- glm(
+  Stress_High_vs_Lower ~ Hours_Worked + Sleep_Hours +
+    Deadline_Days + Meetings + Interruptions,
+  family = binomial,
+  data = ordinal_train
+)
+
+low_vs_higher <- glm(
+  Stress_Low_vs_Higher ~ Hours_Worked + Sleep_Hours +
+    Deadline_Days + Meetings + Interruptions,
+  family = binomial,
+  data = ordinal_train
+)
+```
+```{r}
+exp(coef(high_vs_lower))
+```
+```{r}
+exp(coef(low_vs_higher))
+```
+
+```{r}
+exp(confint(high_vs_lower))
+```
+
+```{r}
+exp(confint(low_vs_higher))
+```
+#The 95% confidence intervals for the odds ratios were examined to assess the precision and statistical significance of the estimated effects. For both binary logistic regression models, the confidence intervals for all five predictors excluded an odds ratio of 1, indicating statistically significant associations with the respective outcomes. Hours Worked, Meetings, and Interruptions had odds ratios greater than 1, indicating increased odds of the coded stress-related outcome. Sleep Hours had an odds ratio substantially below 1, indicating a strong negative association. Deadline Days had an odds ratio slightly below 1, suggesting a relatively small negative association. The consistency of these effects across both binary comparisons provides additional evidence that these variables are important predictors of stress classification.
+
+
+```{r}
+ordinal_pred_class <- predict(
+  ordinal_stepwise,
+  newdata = test_data,
+  type = "class"
+)
+
+head(ordinal_pred_class)
+```
+
+```{r}
+table(ordinal_pred_class)
+```
+
+```{r}
+test_data$Stress_Category
+```
+
+```{r}
+ordinal_confusion <- table(
+  Actual = test_data$Stress_Category,
+  Predicted = ordinal_pred_class
+)
+
+ordinal_confusion
+```
+
+```{r}
+ordinal_accuracy <- mean(
+  as.character(ordinal_pred_class) ==
+    as.character(test_data$Stress_Category)
+)
+
+ordinal_accuracy
+```
+
+```{r}
+ordinal_accuracy * 100
+```
+
+#The final ordinal logistic regression model achieved an overall classification accuracy of approximately 79.38% on the test set. The model demonstrated strong classification performance for the Low and High stress categories, correctly classifying approximately 84.85% and 95.24% of observations, respectively. However, classification performance for the Moderate category was considerably lower at approximately 40.91%. The majority of misclassifications occurred between adjacent stress categories, particularly between Moderate and High or Moderate and Low. This suggests that the model is effective at distinguishing the extreme levels of stress but has greater difficulty differentiating observations belonging to the intermediate Moderate category.
+
+```{r}
+cm <- ordinal_confusion
+```
+```{r}
+cm
+```
+
+```{r}
+recall_low <- cm["Low", "Low"] / sum(cm["Low", ])
+recall_moderate <- cm["Moderate", "Moderate"] / sum(cm["Moderate", ])
+recall_high <- cm["High", "High"] / sum(cm["High", ])
+
+recall_low
+recall_moderate
+recall_high
+```
+
+```{r}
+precision_low <- cm["Low", "Low"] / sum(cm[, "Low"])
+precision_moderate <- cm["Moderate", "Moderate"] / sum(cm[, "Moderate"])
+precision_high <- cm["High", "High"] / sum(cm[, "High"])
+
+precision_low
+precision_moderate
+precision_high
+```
+
+```{r}
+f1_low <- 2 * precision_low * recall_low /
+  (precision_low + recall_low)
+
+f1_moderate <- 2 * precision_moderate * recall_moderate /
+  (precision_moderate + recall_moderate)
+
+f1_high <- 2 * precision_high * recall_high /
+  (precision_high + recall_high)
+
+f1_low
+f1_moderate
+f1_high
+```
+
+```{r}
+ordinal_class_metrics <- data.frame(
+  Category = c("Low", "Moderate", "High"),
+  Precision = c(
+    precision_low,
+    precision_moderate,
+    precision_high
+  ),
+  Recall = c(
+    recall_low,
+    recall_moderate,
+    recall_high
+  ),
+  F1_Score = c(
+    f1_low,
+    f1_moderate,
+    f1_high
+  )
+)
+
+ordinal_class_metrics
+```
+
+```{r}
+ordinal_class_metrics[, 2:4] <-
+  ordinal_class_metrics[, 2:4] * 100
+
+ordinal_class_metrics
+```
+
+#The ordinal logistic regression model performs very well for High-stress observations, with a recall of 95.24% and F1-score of 88.89%. Performance for Low-stress observations is also strong, with a recall of 84.85% and F1-score of 82.35%. However, the Moderate category has substantially weaker performance, with both precision and recall of approximately 40.91%. This indicates that the model has difficulty distinguishing Moderate stress observations from the adjacent Low and High categories. Overall, the model is effective at identifying the extreme stress categories but less reliable for intermediate stress levels.
+
+
+```{r}
+ordinal_accuracy <- mean(
+  as.character(ordinal_pred_class) ==
+    as.character(test_data$Stress_Category)
+)
+
+ordinal_accuracy
+ordinal_accuracy * 100
+```
+
+```{r}
+prop.table(ordinal_confusion, margin = 1)
+```
+
+#Class-wise evaluation indicates that the ordinal logistic regression model performs well in identifying the extreme stress categories. Approximately 84.85% of Low-stress observations and 80.00% of High-stress observations were correctly classified. In contrast, only 36.36% of Moderate-stress observations were correctly classified, with 22.73% classified as Low and 40.91% classified as High. This indicates that the model has greater difficulty distinguishing observations in the middle stress category, while it is more effective at identifying Low and High stress levels. Overall, the model achieved a test-set accuracy of 72.38%, suggesting reasonably good predictive performance.
+
+```{r}
+table(
+  Actual = test_data$Stress_Category,
+  Predicted = ordinal_pred_class
+)
+```
+
+```{r}
+prop.table(table(ordinal_pred_class))
+```
+#The predicted-class distribution shows that 46.67% of the test observations were classified as High stress, 33.33% as Low stress, and 20.00% as Moderate stress. The relatively low proportion of Moderate predictions is consistent with the confusion matrix, which showed that a substantial proportion of actual Moderate observations were classified as either Low or High. This suggests that the model distinguishes the extreme stress categories more effectively than the intermediate category.
+
+```{r}
+prop.table(table(test_data$Stress_Category))
+```
+
+```{r}
+ordinal_metrics <- data.frame(
+  Accuracy = ordinal_accuracy,
+  Low_Recall = recall_low,
+  Moderate_Recall = recall_moderate,
+  High_Recall = recall_high,
+  Low_F1 = f1_low,
+  Moderate_F1 = f1_moderate,
+  High_F1 = f1_high
+)
+
+ordinal_metrics
+```
+
+#Low stress:
+#The model performs very well. Recall is 84.85%, meaning it correctly identifies most genuinely Low-stress observations. The F1-score of 0.824 also indicates strong overall classification performance for this category.
+
+#Moderate stress:
+#This is clearly the weakest category. Recall is only 36.36% and F1-score is 0.372. This confirms what we saw in the confusion matrix: the model struggles to distinguish Moderate stress from Low and High stress.
+
+#High stress:
+#The model performs strongly here as well. Recall is 80%, and the F1-score is 0.808, indicating that it identifies High-stress observations reliably.
+
+#The ordinal logistic regression model achieved an overall test-set accuracy of 72.38%. Class-specific evaluation shows strong predictive performance for Low and High stress categories, with recall values of 84.85% and 80.00%, respectively. The corresponding F1-scores of 0.824 and 0.808 further indicate reliable classification of these two categories. However, prediction of the Moderate stress category was substantially weaker, with a recall of 36.36% and an F1-score of 0.372. Therefore, while the model provides reasonably good overall classification performance, its primary limitation is distinguishing the intermediate Moderate stress category from the neighboring Low and High categories.
+
+
+```{r}
+high_prob <- predict(high_vs_lower, newdata = test_data, type = "response")
+```
+```{r}
+high_pred <- ifelse(high_prob >= 0.5, "High", "Lower")
+```
+```{r}
+test_data$Stress_High_vs_Lower <- ifelse(
+  as.character(test_data$Stress_Category) == "High",
+  "High",
+  "Lower"
+)
+```
+```{r}
+table(test_data$Stress_High_vs_Lower)
+```
+
+```{r}
+table(
+  Actual = test_data$Stress_High_vs_Lower,
+  Predicted = high_pred
+)
+```
+
+```{r}
+high_accuracy <- mean(
+  high_pred == test_data$Stress_High_vs_Lower
+)
+
+high_accuracy
+```
+
+```{r}
+high_accuracy * 100
+```
+
+```{r}
+low_prob <- predict(
+  low_vs_higher,
+  newdata = test_data,
+  type = "response"
+)
+```
+```{r}
+low_pred <- ifelse(
+  low_prob >= 0.5,
+  "Low",
+  "Higher"
+)
+```
+
+```{r}
+test_data$Stress_Low_vs_Higher <- ifelse(
+  as.character(test_data$Stress_Category) == "Low",
+  "Low",
+  "Higher"
+)
+```
+
+```{r}
+table(
+  Actual = test_data$Stress_Low_vs_Higher,
+  Predicted = low_pred
+)
+```
+```{r}
+low_accuracy <- mean(
+  low_pred == test_data$Stress_Low_vs_Higher
+)
+
+low_accuracy
+```
+
+```{r}
+low_accuracy * 100
+```
+
+```{r}
+table(
+  Actual = test_data$Stress_Low_vs_Higher,
+  Predicted = low_pred
+)
+```
+
+```{r}
+table(low_pred)
+```
+```{r}
+levels(test_data$Stress_Low_vs_Higher)
+```
+
+```{r}
+levels(ordinal_train$Stress_Low_vs_Higher)
+```
+
+```{r}
+levels(model.response(model.frame(low_vs_higher)))
+```
+
+```{r}
+table(model.response(model.frame(low_vs_higher)))
+```
+```{r}
+head(ordinal_train[, c("Stress_Category", "Stress_Low_vs_Higher")], 20)
+```
+
+```{r}
+low_pred <- ifelse(
+  low_prob >= 0.5,
+  "Higher",
+  "Low"
+)
+```
+
+```{r}
+table(
+  Actual = test_data$Stress_Low_vs_Higher,
+  Predicted = low_pred
+)
+```
+
+```{r}
+low_accuracy <- mean(
+  low_pred == test_data$Stress_Low_vs_Higher
+)
+
+low_accuracy * 100
+```
+
+#Three logistic modelling approaches were considered to evaluate stress-level prediction. The ordinal logistic regression model retained the ordered structure of the response variable (Low < Moderate < High) and achieved a test-set classification accuracy of 72.38%. Binary logistic models achieved higher accuracies of 84.76% for High versus Lower stress and 87.62% for Low versus Higher stress. However, these binary approaches collapse the three-level outcome into two categories and therefore do not distinguish the Moderate stress level. Consequently, the ordinal logistic regression model was selected as the primary model because it preserves the complete ordered response structure. The model identified Hours Worked, Sleep Hours, Deadline Days, Meetings, and Interruptions as important predictors. Nevertheless, the proportional-odds assumption was violated for Sleep Hours, and the model showed relatively weak classification performance for the Moderate category. These limitations should be considered when interpreting the model's predictions.
+
+
+#The analysis identified several important behavioural factors associated with software developer stress levels. Hours Worked, Meetings, and Interruptions were positively associated with higher stress, while Sleep Hours showed a strong negative association. The final ordinal logistic regression model achieved a test-set accuracy of 72.38% and demonstrated strong classification performance for Low and High stress levels, while prediction of Moderate stress was considerably weaker. Binary logistic models achieved higher test-set accuracies of 84.76% and 87.62%; however, these models collapse the three-level stress outcome into two categories and therefore do not retain information about Moderate stress. Consequently, the ordinal logistic regression model is considered the more appropriate primary model for the three-level ordered stress outcome. Nevertheless, the significant violation of the proportional-odds assumption for Sleep Hours represents an important limitation and suggests that a more flexible ordinal modelling approach could be considered in future work.
